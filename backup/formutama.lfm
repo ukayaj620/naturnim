@@ -41,4 +41,19 @@ object FormMaster: TFormMaster
     Caption = 'Stop'
     TabOrder = 2
   end
+  object BtnRotate: TButton
+    Left = 392
+    Height = 38
+    Top = 936
+    Width = 113
+    Caption = 'Rotate'
+    OnClick = BtnRotateClick
+    TabOrder = 3
+  end
+  object FPS: TTimer
+    OnTimer = FPSTimer
+    OnStopTimer = FPSStopTimer
+    left = 32
+    top = 16
+  end
 end
