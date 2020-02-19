@@ -40,6 +40,7 @@
         <Filename Value="formutama.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMaster"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormUtama"/>
       </Unit1>
