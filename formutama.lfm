@@ -1,0 +1,43 @@
+object FormMaster: TFormMaster
+  Left = 374
+  Height = 703
+  Top = 176
+  Width = 1202
+  Caption = 'FormMaster'
+  ClientHeight = 703
+  ClientWidth = 1202
+  DesignTimePPI = 144
+  OnCreate = FormCreate
+  LCLVersion = '2.0.6.0'
+  object ImageUtama: TImage
+    Left = 28
+    Height = 611
+    Top = 13
+    Width = 1145
+  end
+  object BtnClose: TButton
+    Left = 536
+    Height = 38
+    Top = 648
+    Width = 113
+    Caption = 'Close'
+    TabOrder = 0
+  end
+  object BtnStart: TButton
+    Left = 328
+    Height = 38
+    Top = 648
+    Width = 113
+    Caption = 'Start'
+    OnClick = BtnStartClick
+    TabOrder = 1
+  end
+  object BtnStop: TButton
+    Left = 736
+    Height = 38
+    Top = 648
+    Width = 113
+    Caption = 'Stop'
+    TabOrder = 2
+  end
+end

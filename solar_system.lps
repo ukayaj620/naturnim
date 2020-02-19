@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="11"/>
+    <BuildModes Active="Default"/>
+    <Units Count="2">
+      <Unit0>
+        <Filename Value="solar_system.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="20"/>
+      </Unit0>
+      <Unit1>
+        <Filename Value="formutama.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormMaster"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormUtama"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="54"/>
+        <CursorPos X="21" Y="65"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit1>
+    </Units>
+    <JumpHistory Count="6" HistoryIndex="5">
+      <Position1>
+        <Filename Value="formutama.pas"/>
+      </Position1>
+      <Position2>
+        <Filename Value="formutama.pas"/>
+        <Caret Line="42" Column="31" TopLine="27"/>
+      </Position2>
+      <Position3>
+        <Filename Value="formutama.pas"/>
+        <Caret Line="45" Column="109" TopLine="45"/>
+      </Position3>
+      <Position4>
+        <Filename Value="formutama.pas"/>
+        <Caret Line="62" Column="30" TopLine="47"/>
+      </Position4>
+      <Position5>
+        <Filename Value="formutama.pas"/>
+        <Caret Line="23" Column="9" TopLine="8"/>
+      </Position5>
+      <Position6>
+        <Filename Value="formutama.pas"/>
+        <Caret Line="61" Column="35" TopLine="49"/>
+      </Position6>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes Count="0" ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
