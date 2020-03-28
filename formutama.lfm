@@ -1,59 +1,63 @@
 object FormMaster: TFormMaster
-  Left = 374
-  Height = 703
-  Top = 176
-  Width = 1202
+  Left = 239
+  Height = 837
+  Top = 76
+  Width = 1606
   Caption = 'FormMaster'
-  ClientHeight = 703
-  ClientWidth = 1202
-  DesignTimePPI = 144
+  ClientHeight = 837
+  ClientWidth = 1606
+  DesignTimePPI = 120
   OnCreate = FormCreate
   OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object ImageUtama: TImage
-    Left = 28
-    Height = 907
-    Top = 13
-    Width = 1868
+    Left = 23
+    Height = 756
+    Top = 11
+    Width = 1557
   end
   object BtnClose: TButton
-    Left = 912
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 760
+    Height = 32
+    Top = 780
+    Width = 94
     Caption = 'Close'
+    ParentFont = False
     TabOrder = 0
   end
   object BtnStart: TButton
-    Left = 648
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 540
+    Height = 32
+    Top = 780
+    Width = 94
     Caption = 'Start'
     OnClick = BtnStartClick
+    ParentFont = False
     TabOrder = 1
   end
   object BtnStop: TButton
-    Left = 1168
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 973
+    Height = 32
+    Top = 780
+    Width = 94
     Caption = 'Stop'
+    ParentFont = False
     TabOrder = 2
   end
   object BtnRotate: TButton
-    Left = 392
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 327
+    Height = 32
+    Top = 780
+    Width = 94
     Caption = 'Rotate'
     OnClick = BtnRotateClick
+    ParentFont = False
     TabOrder = 3
   end
   object FPS: TTimer
     OnTimer = FPSTimer
     OnStopTimer = FPSStopTimer
-    left = 32
-    top = 16
+    left = 27
+    top = 13
   end
 end
