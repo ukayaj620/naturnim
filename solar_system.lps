@@ -8,9 +8,9 @@
       <Unit0>
         <Filename Value="solar_system.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
         <CursorPos X="27" Y="3"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="formutama.pas"/>
@@ -20,10 +20,12 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormUtama"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="101"/>
-        <CursorPos X="54" Y="112"/>
-        <UsageCount Value="28"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="98"/>
+        <CursorPos X="26" Y="103"/>
+        <UsageCount Value="29"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="formutama.lfm"/>
@@ -33,9 +35,6 @@
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit2>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
     <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>

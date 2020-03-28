@@ -42,7 +42,7 @@ type
   public
     procedure Ellipse(point: TPoint; radius: LongInt; pnColorPlt: TColor; degree: Double; hasLine: boolean);
     function CartesiusToMonitor(point: TPoint): TPoint;
-    procedure Rotation(index: integer; rotationDegree: double);
+    procedure Revolution(index: integer; revolutionDegree: double);
   end;
 
 var
@@ -86,7 +86,22 @@ begin
   Planet[1].Radius:= 25;
   Planet[1].Pos.SetLocation(225, 0);
   Planet[1].Color:= clRed;
-  Planet[1].Degree:= 15;
+  Planet[1].Degree:= 20;
+  Planet[2].Name:= 'Venus';
+  Planet[2].Radius:= 50;
+  Planet[2].Pos.SetLocation(300,0);
+  Planet[2].Color:= clYellow;
+  Planet[2].Degree:= 17;
+  Planet[3].Name:= 'Earth';
+  Planet[3].Radius:= 55;
+  Planet[3].Pos.SetLocation(400, 0);
+  Planet[3].Color:= clBlue;
+  Planet[3].Degree:= 15;
+  Planet[4].Name:= 'Mars';
+  Planet[4].Radius:= 35;
+  Planet[4].Pos.SetLocation(520, 0);
+  Planet[4].Color:= clRed;
+  Planet[4].Degree:= 12;
 end;
 
 procedure TFormMaster.FPSStopTimer(Sender: TObject);
@@ -102,10 +117,12 @@ begin
   ImageUtama.Canvas.Rectangle(0, 0, ImageUtama.Width, ImageUtama.Height);
   point.SetLocation(0,0);
   ImageUtama.Canvas.Brush.Color:= clRed;
-  Ellipse(point, 75, clRed, 30, true);
+  Ellipse(point, 125, clRed, 30, true);
   ImageUtama.Canvas.Brush.Style:= bsClear;
-  Ellipse(point,225,clBlack, 0, false);
-  ImageUtama.Canvas.Brush.Color:= Planet[1].Color;
+  Ellipse(point, 225, clBlack, 0, false);
+  Ellipse(point, 300, clBlack, 0, false);
+  Ellipse(point, 400, clBlack, 0, false);
+  Ellipse(point, 510, clBlack, 0, false);
   BtnRotateClick(Sender);
 end;
 
@@ -115,10 +132,18 @@ begin
 end;
 
 procedure TFormMaster.BtnRotateClick(Sender: TObject);
+var
+  i: integer;
 begin
-  Rotation(1,15);
-  ImageUtama.Canvas.Brush.Color:= Planet[1].Color;
-  Ellipse(Planet[1].Pos, round(Planet[1].Radius), Planet[1].Color, Planet[1].Degree, true);
+  Revolution(1, 30); // Revolusi
+  Revolution(2, 20);
+  Revolution(3, 15);
+  Revolution(4, 12);
+  for i:= 1 to 4 do
+  begin
+    ImageUtama.Canvas.Brush.Color:= Planet[i].Color;
+    Ellipse(Planet[i].Pos, round(Planet[i].Radius), Planet[i].Color, Planet[i].Degree, true);
+  end;
 end;
 
 function TFormMaster.CartesiusToMonitor(point: TPoint): TPoint;
@@ -130,13 +155,13 @@ begin
   CartesiusToMonitor:= tempPoint;
 end;
 
-procedure TFormMaster.Rotation(index: integer; rotationDegree: double);
+procedure TFormMaster.Revolution(index: integer; revolutionDegree: double);
 var
   tempPoint: TPoint;
   rad: double;
 begin
   tempPoint.setLocation(Planet[index].Pos.x, Planet[index].Pos.y);
-  rad:= rotationDegree*PI/180;
+  rad:= revolutionDegree*PI/180;
   Planet[index].Pos.SetLocation(round(tempPoint.x*Cos(rad)-tempPoint.y*Sin(rad)),round(tempPoint.x*Sin(rad)+tempPoint.y*Cos(rad)))
 end;
 
