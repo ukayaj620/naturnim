@@ -110,17 +110,8 @@ begin
 end;
 
 procedure TFormMaster.BtnStartClick(Sender: TObject);
-var
-  point: TPoint;
 begin
   FPS.Enabled:= true;
-  point.SetLocation(0,0);
-  ImageUtama.Canvas.Brush.Color:= clRed;
-  Ellipse(point, 75, clRed, 30, true);
-  ImageUtama.Canvas.Brush.Style:= bsClear;
-  Ellipse(point,225,clBlack, 0, false);
-  ImageUtama.Canvas.Brush.Color:= Planet[1].Color;
-  Ellipse(Planet[1].Pos, round(Planet[1].Radius), Planet[1].Color, Planet[1].Degree, true);
 end;
 
 procedure TFormMaster.BtnRotateClick(Sender: TObject);
