@@ -39,9 +39,23 @@ type
     var
       CenterPos: TPoint;
       Planet: array[1..6] of TPlanet;
+
   public
-    procedure Ellipse(point: TPoint; radius: LongInt; pnColorPlt: TColor; degree: Double; hasLine: boolean);
+    // core function
     function CartesiusToMonitor(point: TPoint): TPoint;
+
+    // drawing utility
+    procedure clearCanvas();
+    procedure noStroke();
+    procedure stroke(c: TColor);
+    procedure noFill();
+    procedure fill(c: TColor);
+    procedure strokeWeight(weight: double);
+    procedure ellipse(x: double; y: double ; radius: double);
+    procedure ellipse(pos: TPoint; radius: double);
+    procedure rect(x: double; y: double; w: double; h: double);
+
+    // main functions
     procedure Revolution(index: integer; revolutionDegree: double);
   end;
 
@@ -54,50 +68,123 @@ implementation
 
 { TFormMaster }
 
-procedure TFormMaster.Ellipse(
-  point: TPoint;
-  radius: LongInt;
-  pnColorPlt: TColor;
-  degree: Double;
-  hasLine: boolean);
+
+// core function
+function TFormMaster.CartesiusToMonitor(point: TPoint): TPoint;
+var
+  tempPoint: TPoint;
+begin
+  tempPoint.x:= CenterPos.x + point.x;
+  tempPoint.y:= CenterPos.y - point.y;
+  CartesiusToMonitor:= tempPoint;
+end;
+
+
+// drawing utility
+procedure TFormMaster.clearCanvas();
+begin
+  noStroke();
+  fill(clWhite);
+  rect(0, 0, ImageUtama.Canvas.Width, ImageUtama.Canvas.Height);
+end;
+
+procedure TFormMaster.noStroke();
+begin
+  ImageUtama.Canvas.Pen.Style := psClear;
+end;
+
+procedure TFormMaster.stroke(c: TColor);
+begin
+  ImageUtama.Canvas.Pen.Style := psSolid;
+  ImageUtama.Canvas.Pen.Color := c;
+end;
+
+procedure TFormMaster.noFill();
+begin
+  ImageUtama.Canvas.Brush.Style := bsclear;
+end;
+
+procedure TFormMaster.fill(c: TColor);
+begin
+  ImageUtama.Canvas.Brush.Style := bssolid;
+  ImageUtama.Canvas.Brush.Color := c;
+end;
+
+procedure TFormMaster.strokeWeight(weight: double);
+begin
+  ImageUtama.Canvas.Pen.Width := round(weight);
+end;
+
+procedure TFormMaster.Ellipse(x: double; y: double; radius: double);
+var
+  pointKartesius: TPoint;
+  pointMonitor: TPoint;
+begin
+  pointkartesius.x := round(x);
+  pointkartesius.y := round(y);
+
+  pointMonitor:= CartesiusToMonitor(pointkartesius);
+
+  ImageUtama.Canvas.Ellipse(
+    pointMonitor.x - round(radius),
+    pointMonitor.y - round(radius),
+    pointMonitor.x + round(radius),
+    pointMonitor.y + round(radius)
+  );
+end;
+
+procedure TFormMaster.Ellipse(pos: TPoint; radius: double);
 var
   pointMonitor: TPoint;
 begin
-  ImageUtama.Canvas.Pen.Color:= pnColorPlt;
-  ImageUtama.Canvas.Pen.Width:= 1;
-  pointMonitor:= CartesiusToMonitor(point);
-  ImageUtama.Canvas.Ellipse(
-    pointMonitor.x-radius,
-    pointMonitor.y-radius,
-    pointMonitor.x+radius,
-    pointMonitor.y+radius
-  );
+  pointMonitor:= CartesiusToMonitor(pos);
 
-  if hasLine = true then
-  begin
-    ImageUtama.Canvas.Pen.Color:= clBlack;
-    ImageUtama.Canvas.Pen.Width:= 2;
-    ImageUtama.Canvas.Line(
-      pointMonitor.x,
-      pointMonitor.y,
-      pointMonitor.x+round(radius*Cos(degree*PI/180)),
-      pointMonitor.y-round(radius*Sin(degree*PI/180))
-    );
-  end;
+  ImageUtama.Canvas.Ellipse(
+    pointMonitor.x - round(radius),
+    pointMonitor.y - round(radius),
+    pointMonitor.x + round(radius),
+    pointMonitor.y + round(radius)
+  );
 end;
+
+procedure TFormMaster.rect(x: double; y: double; w: double; h: double);
+begin
+  ImageUtama.Canvas.Rectangle(round(x), round(y), round(x+w), round(y+h));
+end;
+
+
+// Main Function
+
+procedure TFormMaster.Revolution(index: integer; revolutionDegree: double);
+var
+  tempPoint: TPoint;
+  rad: double;
+begin
+  tempPoint.setLocation(Planet[index].Pos.x, Planet[index].Pos.y);
+  rad:= revolutionDegree*PI/180;
+
+  Planet[index].Pos.SetLocation(
+    round(tempPoint.x*Cos(rad)-tempPoint.y*Sin(rad)),
+    round(tempPoint.x*Sin(rad)+tempPoint.y*Cos(rad))
+  );
+end;
+
+
+// Event Handled Function
 
 procedure TFormMaster.FormCreate(Sender: TObject);
 begin
   FPS.Enabled:= false;
+
   CenterPos.x:= ImageUtama.Width div 2;
   CenterPos.y:= ImageUtama.Height div 2;
-  ImageUtama.Canvas.Brush.Color:= clWhite;
-  ImageUtama.Canvas.Rectangle(0, 0, ImageUtama.Width, ImageUtama.Height);
+
+  clearCanvas(); // First time single Clear = Black Screen (???)
+  clearCanvas();
 end;
 
 procedure TFormMaster.FormShow(Sender: TObject);
 begin
-  WindowState:= wsFullScreen;
   Planet[1].Name:= 'Mercury';
   Planet[1].Radius:= 25;
   Planet[1].Pos.SetLocation(225, 0);
@@ -135,27 +222,25 @@ begin
   Planet[6].Degree:= 12;
 end;
 
-procedure TFormMaster.FPSStopTimer(Sender: TObject);
-begin
-
-end;
-
 procedure TFormMaster.FPSTimer(Sender: TObject);
-var
-  point: TPoint;
 begin
-  ImageUtama.Canvas.Brush.Color:= clWhite;
-  ImageUtama.Canvas.Rectangle(0, 0, ImageUtama.Width, ImageUtama.Height);
-  point.SetLocation(0,0);
-  ImageUtama.Canvas.Brush.Color:= clRed;
-  Ellipse(point, 125, clRed, 30, true);
-  ImageUtama.Canvas.Brush.Style:= bsClear;
-  Ellipse(point, 225, clBlack, 0, false);
-  Ellipse(point, 300, clBlack, 0, false);
-  Ellipse(point, 400, clBlack, 0, false);
-  Ellipse(point, 600, clBlack, 0, false);
+  clearCanvas();
+
+  stroke(clBlack);
+
+  fill(clRed);
+  Ellipse(0, 0, 125);
+
+  noFill();
+  Ellipse(0, 0, 225);
+  Ellipse(0, 0, 300);
+  Ellipse(0, 0, 400);
+  Ellipse(0, 0, 600);
   BtnRotateClick(Sender);
 end;
+
+
+// Button Events
 
 procedure TFormMaster.BtnStartClick(Sender: TObject);
 begin
@@ -166,47 +251,32 @@ procedure TFormMaster.BtnRotateClick(Sender: TObject);
 var
   i: integer;
 begin
-  Revolution(1, 30); // Revolusi
+  // Revolusi
+  Revolution(1, 30);
   Revolution(2, 20);
   Revolution(3, 15);
   Revolution(4, 12);
   Revolution(5, 45);
   Revolution(6, 30);
 
+
+  // Setup Canvas
+  stroke(clBlack);
+  strokeWeight(1);
+
+  // Draw Planet
   for i:= 1 to 4 do
   begin
-    ImageUtama.Canvas.Brush.Color:= Planet[i].Color;
-    Ellipse(Planet[i].Pos, round(Planet[i].Radius), Planet[i].Color, Planet[i].Degree, true);
+    fill(Planet[i].Color);
+    Ellipse(Planet[i].Pos, Planet[i].Radius);
   end;
 
-  ImageUtama.Canvas.Brush.Color:= Planet[5].Color;
-  Ellipse(Planet[5].Pos + Planet[3].Pos, round(Planet[5].Radius), Planet[5].Color, Planet[5].Degree, true);
+  // Draw Moon
+  fill(Planet[5].Color);
+  Ellipse(Planet[5].Pos + Planet[3].Pos, Planet[5].Radius);
 
-  ImageUtama.Canvas.Brush.Color:= Planet[6].Color;
-  Ellipse(Planet[6].Pos + Planet[4].Pos, round(Planet[6].Radius), Planet[6].Color, Planet[6].Degree, true);
-end;
-
-function TFormMaster.CartesiusToMonitor(point: TPoint): TPoint;
-var
-  tempPoint: TPoint;
-begin
-  tempPoint.x:= CenterPos.x + point.x;
-  tempPoint.y:= CenterPos.y - point.y;
-  CartesiusToMonitor:= tempPoint;
-end;
-
-procedure TFormMaster.Revolution(index: integer; revolutionDegree: double);
-var
-  tempPoint: TPoint;
-  rad: double;
-begin
-  tempPoint.setLocation(Planet[index].Pos.x, Planet[index].Pos.y);
-  rad:= revolutionDegree*PI/180;
-
-  Planet[index].Pos.SetLocation(
-    round(tempPoint.x*Cos(rad)-tempPoint.y*Sin(rad)),
-    round(tempPoint.x*Sin(rad)+tempPoint.y*Cos(rad))
-  );
+  fill(Planet[6].Color);
+  Ellipse(Planet[6].Pos + Planet[4].Pos, Planet[6].Radius);
 end;
 
 end.

@@ -56,7 +56,6 @@ object FormMaster: TFormMaster
   end
   object FPS: TTimer
     OnTimer = FPSTimer
-    OnStopTimer = FPSStopTimer
     left = 27
     top = 13
   end
