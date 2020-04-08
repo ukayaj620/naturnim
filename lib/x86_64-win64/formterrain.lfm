@@ -1,0 +1,9 @@
+object FormMatrix: TFormMatrix
+  Left = 472
+  Height = 300
+  Top = 309
+  Width = 400
+  Caption = 'FormMatrix'
+  DesignTimePPI = 120
+  LCLVersion = '2.0.6.0'
+end

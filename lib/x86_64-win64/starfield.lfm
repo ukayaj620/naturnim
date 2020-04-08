@@ -1,10 +1,10 @@
 object FormStar: TFormStar
   Left = 336
-  Height = 752
+  Height = 726
   Top = 128
   Width = 1164
   Caption = 'FormStar'
-  ClientHeight = 752
+  ClientHeight = 726
   ClientWidth = 1164
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -19,8 +19,9 @@ object FormStar: TFormStar
     Left = 120
     Height = 31
     Top = 680
-    Width = 1032
+    Width = 928
     Max = 50
+    OnChange = tb_kecepatanChange
     Position = 0
     TabOrder = 0
   end
@@ -31,6 +32,16 @@ object FormStar: TFormStar
     Width = 97
     Caption = 'Kecepatan :'
     ParentColor = False
+  end
+  object ed_kecepatan: TEdit
+    Left = 1048
+    Height = 33
+    Top = 680
+    Width = 104
+    Alignment = taCenter
+    Enabled = False
+    TabOrder = 1
+    Text = '0'
   end
   object Timer1: TTimer
     Interval = 11

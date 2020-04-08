@@ -13,11 +13,13 @@ type
   { TFormStar }
 
   TFormStar = class(TForm)
+    ed_kecepatan: TEdit;
     Image1: TImage;
     lbl_kecepatan: TLabel;
     Timer1: TTimer;
     tb_kecepatan: TTrackBar;
     procedure FormCreate(Sender: TObject);
+    procedure tb_kecepatanChange(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     type
@@ -270,6 +272,11 @@ begin
   end;
 
   kecepatan := 0;
+end;
+
+procedure TFormStar.tb_kecepatanChange(Sender: TObject);
+begin
+  ed_kecepatan.text := inttostr(tb_kecepatan.Position);
 end;
 
 // draw

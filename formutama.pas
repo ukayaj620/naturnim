@@ -6,17 +6,19 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  FormSolar, starfield;
+  FormSolar, starfield, FormTerrain;
 
 type
 
   { TFormMaster }
 
   TFormMaster = class(TForm)
-    Button1: TButton;
-    Button2: TButton;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    btn_Solar: TButton;
+    btn_Star: TButton;
+    btn_Terrain: TButton;
+    procedure btn_SolarClick(Sender: TObject);
+    procedure btn_StarClick(Sender: TObject);
+    procedure btn_TerrainClick(Sender: TObject);
   private
 
   public
@@ -32,14 +34,19 @@ implementation
 
 { TFormMaster }
 
-procedure TFormMaster.Button1Click(Sender: TObject);
+procedure TFormMaster.btn_SolarClick(Sender: TObject);
 begin
   FormSol.show();
 end;
 
-procedure TFormMaster.Button2Click(Sender: TObject);
+procedure TFormMaster.btn_StarClick(Sender: TObject);
 begin
   FormStar.Show();
+end;
+
+procedure TFormMaster.btn_TerrainClick(Sender: TObject);
+begin
+  FormMatrix.Show();
 end;
 
 end.
