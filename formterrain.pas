@@ -5,13 +5,82 @@ unit FormTerrain;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Math;
 
 type
+
+  { TFormMatrix }
+
   TFormMatrix = class(TForm)
+    Image1: TImage;
+    Timer1: TTimer;
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
+    type
+      Vector3 = record
+        x:double;
+        y:double;
+        z:double;
+    end;
+
+    var
+      CONST_M: double;
+      list_vertex: array of Vector3;
+      list_vertex_count: Longint;
+      w, h: integer;
+      dx, dy, dt: double;
+    const
+      p : array[0..255] of byte = (
+        151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225,
+        140, 36, 103, 30, 69, 142, 8, 99, 37, 240, 21, 10, 23, 190, 6, 148,
+        247, 120, 234, 75, 0, 26, 197, 62, 94, 252, 219, 203, 117, 35, 11, 32,
+        57, 177, 33, 88, 237, 149, 56, 87, 174, 20, 125, 136, 171, 168, 68, 175,
+        74, 165, 71, 134, 139, 48, 27, 166, 77, 146, 158, 231, 83, 111, 229, 122,
+        60, 211, 133, 230, 220, 105, 92, 41, 55, 46, 245, 40, 244, 102, 143, 54,
+        65, 25, 63, 161, 1, 216, 80, 73, 209, 76, 132, 187, 208, 89, 18, 169,
+        200, 196, 135, 130, 116, 188, 159, 86, 164, 100, 109, 198, 173, 186, 3, 64,
+        52, 217, 226, 250, 124, 123, 5, 202, 38, 147, 118, 126, 255, 82, 85, 212,
+        207, 206, 59, 227, 47, 16, 58, 17, 182, 189, 28, 42, 223, 183, 170, 213,
+        119, 248, 152, 2, 44, 154, 163, 70, 221, 153, 101, 155, 167, 43, 172, 9,
+        129, 22, 39, 253, 19, 98, 108, 110, 79, 113, 224, 232, 178, 185, 112, 104,
+        218, 246, 97, 228, 251, 34, 242, 193, 238, 210, 144, 12, 191, 179, 162, 241,
+        81, 51, 145, 235, 249, 14, 239, 107, 49, 192, 214, 31, 181, 199, 106, 157,
+        184, 84, 204, 176, 115, 121, 50, 45, 127, 4, 150, 254, 138, 236, 205, 93,
+        222, 114, 67, 29, 24, 72, 243, 141, 128, 195, 78, 66, 215, 61, 156, 180);
 
   public
+     // The 3D Library
+    {%region /fold}
+
+    // core function
+    function projectTo2D(x:double; y:double; z:double): TPoint;
+    function projectTo2D(pos:Vector3): TPoint;
+    function rotateX(x: double; y: double; z: double; degree: double): Vector3;
+    function rotateX(pos: Vector3; degree: double): Vector3;
+
+    // drawing utility
+    procedure clearCanvas();
+    procedure noStroke();
+    procedure stroke(c: TColor);
+    procedure noFill();
+    procedure fill(c: TColor);
+    procedure strokeWeight(weight: double);
+    procedure ellipse(x: double; y: double; z: double; radius: double);
+    procedure ellipse(pos: Vector3; radius: double);
+    procedure line(x1: double; y1: double; z1: double; x2: double; y2: double; z2: double);
+    procedure line(pos1: Vector3; pos2: Vector3);
+    procedure beginShape(size: LongInt);
+    procedure vertex(x: double; y:double; z:double);
+    procedure vertex(pos: Vector3);
+    procedure endShape();
+
+    function lerp(fade: double; d1: double; d2: double): double;
+    function fade(t: double): double;
+    function grad(hash: integer; x: double; y: double): double;
+    function noisePerlin(x: double; y: double): double;
+    function customPerlinNoise(x: double; y: double): double;
+    {%endregion}
 
   end;
 
@@ -21,6 +90,329 @@ var
 implementation
 
 {$R *.lfm}
+
+// Perlin Noise Library
+{%region /fold}
+function TFormMatrix.lerp(fade: double; d1: double; d2: double): double;
+begin
+  lerp:= ((1.0 - fade) * d1 + fade * d2);
+end;
+
+function TFormMatrix.fade(t: double): double;
+begin
+  fade:= t * t * t * (t * (t * 6 - 15) + 10);
+end;
+
+function TFormMatrix.grad(hash: integer; x: double; y: double): double;
+begin
+  case (hash AND 3) of
+    0:
+      grad:= x + y;
+    1:
+      grad:= -x + y;
+    2:
+      grad:= x - y;
+    3:
+      grad:= -x - y;
+  end;
+end;
+
+function TFormMatrix.noisePerlin(x: double; y: double): double;
+var
+  xi, yi, g1, g2, g3, g4: integer;
+  xf, yf, d1, d2, d3, d4: double;
+  xff, yff, x1Inter, x2Inter, yInter: double;
+begin
+  xi:= floor(x) AND 255;
+  yi:= floor(y) AND 255;
+  g1:= p[p[xi] + yi];
+  g2:= p[p[xi + 1] + yi];
+  g3:= p[p[xi] + yi + 1];
+  g4:= p[p[xi + 1] + yi + 1];
+
+  xf:= x - floor(x);
+  yf:= y - floor(y);
+
+  d1:= grad(g1, xf, yf);
+  d2:= grad(g2, xf - 1, yf);
+  d3:= grad(g3, xf, yf - 1);
+  d4:= grad(g4, xf - 1, yf - 1);
+
+  xff:= fade(xf);
+  yff:= fade(yf);
+
+  x1Inter:= lerp(xff, d1, d2);
+  x2Inter:= lerp(xff, d3, d4);
+  yInter:= lerp(yff, x1Inter, x2Inter);
+
+  noisePerlin:= yInter;
+end;
+
+function TFormMatrix.customPerlinNoise(x: double; y: double): double;
+begin
+  x := (x+w) * dx/(w*2);
+  y := (y+w) * dy/(w*2);
+  customPerlinNoise := noisePerlin(x, y-dt) * h;
+end;
+{%endregion}
+
+// The 3D Library
+{%region /fold}
+
+/// core function
+{%region /fold}
+function TFormMatrix.projectTo2D(x:double; y:double; z:double): TPoint;
+var
+  hasil: TPoint;
+begin
+  if (z <> CONST_M) and (CONST_M <> 0) then
+  begin
+    hasil.x := Round(Image1.Canvas.Width/2  + x / (1-z/CONST_M));
+    hasil.y := Round(Image1.Canvas.Height/2 - y / (1-z/CONST_M));
+  end;
+  projectTo2D := hasil;
+end;
+
+function TFormMatrix.projectTo2D(pos: Vector3): TPoint;
+var
+  hasil: TPoint;
+begin
+  if (pos.z <> CONST_M) and (CONST_M <> 0) then
+  begin
+    hasil.x := Round(Image1.Canvas.Width/2  + pos.x / (1-pos.z/CONST_M));
+    hasil.y := Round(Image1.Canvas.Height/2 - pos.y / (1-pos.z/CONST_M));
+  end;
+  projectTo2D := hasil;
+end;
+
+function TFormMatrix.rotateX(x: double; y: double; z: double; degree: double): Vector3;
+var
+  hasil: Vector3;
+  rad: double;
+begin
+  rad:= degree*PI/180;
+  hasil.x:= x;
+  hasil.y:= y*Cos(rad) - z*Sin(rad);
+  hasil.z:= y*Sin(rad) + z*Cos(rad);
+  rotateX:= hasil;
+end;
+
+function TFormMatrix.rotateX(pos: Vector3; degree: double): Vector3;
+var
+  hasil: Vector3;
+  rad: double;
+begin
+  rad:= degree*PI/180;
+  hasil.x:= pos.x;
+  hasil.y:= pos.y*Cos(rad) - pos.z*Sin(rad);
+  hasil.z:= pos.y*Sin(rad) + pos.z*Cos(rad);
+  rotateX:= hasil;
+end;
+
+{%endregion}
+
+/// drawing utility
+{%region /fold}
+procedure TFormMatrix.clearCanvas();
+begin
+  noStroke();
+  fill(clBlack);
+  Image1.Canvas.rectangle(0, 0, Image1.Canvas.Width, Image1.Canvas.Height);
+end;
+
+procedure TFormMatrix.noStroke();
+begin
+  Image1.Canvas.Pen.Style := psClear;
+end;
+
+procedure TFormMatrix.stroke(c: TColor);
+begin
+  Image1.Canvas.Pen.Style := psSolid;
+  Image1.Canvas.Pen.Color := c;
+end;
+
+procedure TFormMatrix.noFill();
+begin
+  Image1.Canvas.Brush.Style := bsclear;
+end;
+
+procedure TFormMatrix.fill(c: TColor);
+begin
+  Image1.Canvas.Brush.Style := bssolid;
+  Image1.Canvas.Brush.Color := c;
+end;
+
+procedure TFormMatrix.strokeWeight(weight: double);
+begin
+  Image1.Canvas.Pen.Width := round(weight);
+end;
+
+procedure TFormMatrix.Ellipse(x: double; y: double; z: double; radius: double);
+var
+  pointMonitor: TPoint;
+begin
+  pointMonitor:= projectTo2D(x,y,z);
+
+  if z = CONST_M then
+  begin
+    radius := 0;
+  end
+  else
+  begin
+    radius := radius / (1-z/CONST_M);
+  end;
+
+  Image1.Canvas.Ellipse(
+    pointMonitor.x - round(radius),
+    pointMonitor.y - round(radius),
+    pointMonitor.x + round(radius),
+    pointMonitor.y + round(radius)
+  );
+end;
+
+procedure TFormMatrix.Ellipse(pos: Vector3; radius: double);
+var
+  pointMonitor: TPoint;
+begin
+  pointMonitor:= projectTo2D(pos.x,pos.y,pos.z);
+
+  if pos.z = CONST_M then
+  begin
+    radius := 0;
+  end
+  else
+  begin
+    radius := radius / (1-pos.z/CONST_M);
+  end;
+
+  Image1.Canvas.Ellipse(
+    pointMonitor.x - round(radius),
+    pointMonitor.y - round(radius),
+    pointMonitor.x + round(radius),
+    pointMonitor.y + round(radius)
+  );
+end;
+
+procedure TFormMatrix.line(x1: double; y1: double; z1: double; x2: double; y2: double; z2: double);
+var
+  pointMonitor1: TPoint;
+  pointMonitor2: TPoint;
+begin
+  pointMonitor1 := projectTo2D(x1,y1,z1);
+  pointMonitor2 := projectTo2D(x2,y2,z2);
+
+  if (z1 < CONST_M) and (z2 < CONST_M) and (CONST_M <> 0) then
+  begin
+    Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
+  end;
+end;
+
+procedure TFormMatrix.line(pos1: Vector3; pos2: Vector3);
+var
+  pointMonitor1: TPoint;
+  pointMonitor2: TPoint;
+begin
+  pointMonitor1 := projectTo2D(pos1.x, pos1.y, pos1.z);
+  pointMonitor2 := projectTo2D(pos2.x, pos2.y, pos2.z);
+
+
+  if (pos1.z < CONST_M) and (pos2.z < CONST_M) and (CONST_M <> 0) then
+  begin
+    Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
+  end;
+end;
+
+procedure TFormMatrix.beginShape(size: LongInt);
+begin
+  setLength(list_vertex, size);
+  list_vertex_count := 0;
+end;
+
+procedure TFormMatrix.vertex(x: double; y:double; z:double);
+var
+  temp: Vector3;
+begin
+  temp.x := x;
+  temp.y := y;
+  temp.z := z;
+
+  list_vertex[list_vertex_count] := temp;
+  list_vertex_count := list_vertex_count + 1;
+end;
+
+procedure TFormMatrix.vertex(pos: Vector3);
+begin
+  list_vertex[list_vertex_count] := pos;
+  list_vertex_count := list_vertex_count + 1;
+end;
+
+procedure TFormMatrix.endShape();
+var
+  k : longInt;
+begin
+  if list_vertex_count > 0 then
+  begin
+     line(list_vertex[1], list_vertex[2]);
+  end;
+
+  if list_vertex_count > 1 then
+  begin
+    for k:=2 to list_vertex_count do
+    begin
+      line(list_vertex[k], list_vertex[k-1]);
+      line(list_vertex[k], list_vertex[k-2]);
+    end;
+  end;
+end;
+{%endregion}
+{%endregion}
+
+// setup
+procedure TFormMatrix.FormCreate(Sender: TObject);
+begin
+   CONST_M:= 500;
+   clearCanvas();
+   h:= Image1.Height;
+   w:= Image1.Width;
+   dx:= 2;
+   dy:= 2;
+   dt:= 0;
+end;
+
+// draw
+procedure TFormMatrix.Timer1Timer(Sender: TObject);
+var
+  i, j: integer;
+  y: double;
+  size: integer;
+  point: Vector3;
+begin
+  clearCanvas();
+  noFill();
+  stroke(clWhite);
+  size:= 100;
+
+  i:= -2000;
+  while i <= 200 do
+  begin
+    beginShape(100);
+    j:= -w*2;
+    while j <= w*2 do
+    begin
+      y:= customPerlinNoise(j, i);
+      point:= rotateX(j, y-500, i, 30);
+      vertex(point);
+
+      y:= customPerlinNoise(j, i+size);
+      point:= rotateX(j, y-500, i+size, 30);
+      vertex(point);
+      j:= j+size;
+    end;
+    endShape();
+    i:= i + size;
+  end;
+  dt:= dt + 0.01;
+end;
 
 end.
 

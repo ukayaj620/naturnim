@@ -63,6 +63,7 @@
         <Filename Value="formterrain.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMatrix"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormTerrain"/>
       </Unit4>

@@ -226,28 +226,28 @@ begin
   temp.y := y;
   temp.z := z;
 
-  list_vertex_count := list_vertex_count + 1;
   list_vertex[list_vertex_count] := temp;
+  list_vertex_count := list_vertex_count + 1;
 end;
 
 procedure TFormStar.vertex(pos: Vector3);
 begin
-  list_vertex_count := list_vertex_count + 1;
   list_vertex[list_vertex_count] := pos;
+  list_vertex_count := list_vertex_count + 1;
 end;
 
 procedure TFormStar.endShape();
 var
   k : longInt;
 begin
-  if list_vertex_count > 1 then
+  if list_vertex_count > 0 then
   begin
      line(list_vertex[1], list_vertex[2]);
   end;
 
-  if list_vertex_count > 2 then
+  if list_vertex_count > 1 then
   begin
-    for k:=3 to list_vertex_count do
+    for k:=2 to list_vertex_count do
     begin
       line(list_vertex[k], list_vertex[k-1]);
       line(list_vertex[k], list_vertex[k-2]);
@@ -258,7 +258,7 @@ end;
 {%endregion}
 
 
-// EVEBT HANDLING
+// EVENT HANDLING
 
 // Setup
 procedure TFormStar.FormCreate(Sender: TObject);

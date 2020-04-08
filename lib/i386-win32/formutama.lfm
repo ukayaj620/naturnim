@@ -1,59 +1,38 @@
 object FormMaster: TFormMaster
-  Left = 374
-  Height = 703
-  Top = 176
-  Width = 1202
+  Left = 668
+  Height = 300
+  Top = 338
+  Width = 400
   Caption = 'FormMaster'
-  ClientHeight = 703
-  ClientWidth = 1202
-  DesignTimePPI = 144
-  OnCreate = FormCreate
-  OnShow = FormShow
+  ClientHeight = 300
+  ClientWidth = 400
+  DesignTimePPI = 120
   LCLVersion = '2.0.6.0'
-  object ImageUtama: TImage
-    Left = 28
-    Height = 907
-    Top = 13
-    Width = 1868
-  end
-  object BtnClose: TButton
-    Left = 912
-    Height = 38
-    Top = 936
-    Width = 113
-    Caption = 'Close'
+  object btn_Solar: TButton
+    Left = 120
+    Height = 31
+    Top = 48
+    Width = 150
+    Caption = 'Solar System'
+    OnClick = btn_SolarClick
     TabOrder = 0
   end
-  object BtnStart: TButton
-    Left = 648
-    Height = 38
-    Top = 936
-    Width = 113
-    Caption = 'Start'
-    OnClick = BtnStartClick
+  object btn_Star: TButton
+    Left = 120
+    Height = 31
+    Top = 128
+    Width = 150
+    Caption = 'Star Field'
+    OnClick = btn_StarClick
     TabOrder = 1
   end
-  object BtnStop: TButton
-    Left = 1168
-    Height = 38
-    Top = 936
-    Width = 113
-    Caption = 'Stop'
+  object btn_Terrain: TButton
+    Left = 120
+    Height = 31
+    Top = 208
+    Width = 150
+    Caption = 'Space Matrix'
+    OnClick = btn_TerrainClick
     TabOrder = 2
-  end
-  object BtnRotate: TButton
-    Left = 392
-    Height = 38
-    Top = 936
-    Width = 113
-    Caption = 'Rotate'
-    OnClick = BtnRotateClick
-    TabOrder = 3
-  end
-  object FPS: TTimer
-    OnTimer = FPSTimer
-    OnStopTimer = FPSStopTimer
-    left = 32
-    top = 16
   end
 end
