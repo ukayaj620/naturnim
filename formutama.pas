@@ -39,7 +39,7 @@ end;
 
 procedure TFormMaster.Button2Click(Sender: TObject);
 begin
-  Form1.Show();
+  FormStar.Show();
 end;
 
 end.

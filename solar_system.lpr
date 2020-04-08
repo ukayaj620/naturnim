@@ -18,7 +18,7 @@ begin
   Application.Initialize;
   Application.CreateForm(TFormMaster, FormMaster);
   Application.CreateForm(TFormSol, FormSol);
-  Application.CreateForm(TForm1, Form1);
+  Application.CreateForm(TFormStar, FormStar);
   Application.Run;
 end.
 

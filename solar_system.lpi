@@ -47,13 +47,15 @@
       <Unit2>
         <Filename Value="starfield.pas"/>
         <IsPartOfProject Value="True"/>
-        <ComponentName Value="Form1"/>
+        <ComponentName Value="FormStar"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
       <Unit3>
         <Filename Value="formutama.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMaster"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormUtama"/>
       </Unit3>

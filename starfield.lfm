@@ -1,10 +1,10 @@
-object Form1: TForm1
-  Left = 326
-  Height = 675
-  Top = 195
+object FormStar: TFormStar
+  Left = 336
+  Height = 752
+  Top = 128
   Width = 1164
-  Caption = 'Form1'
-  ClientHeight = 675
+  Caption = 'FormStar'
+  ClientHeight = 752
   ClientWidth = 1164
   DesignTimePPI = 120
   OnCreate = FormCreate
@@ -14,5 +14,28 @@ object Form1: TForm1
     Height = 656
     Top = 8
     Width = 1144
+  end
+  object tb_kecepatan: TTrackBar
+    Left = 120
+    Height = 31
+    Top = 680
+    Width = 1032
+    Max = 50
+    Position = 0
+    TabOrder = 0
+  end
+  object lbl_kecepatan: TLabel
+    Left = 8
+    Height = 25
+    Top = 680
+    Width = 97
+    Caption = 'Kecepatan :'
+    ParentColor = False
+  end
+  object Timer1: TTimer
+    Interval = 11
+    OnTimer = Timer1Timer
+    left = 8
+    top = 8
   end
 end
