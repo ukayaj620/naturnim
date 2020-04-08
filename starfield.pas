@@ -16,10 +16,14 @@ type
     ed_kecepatan: TEdit;
     Image1: TImage;
     lbl_kecepatan: TLabel;
+    ed_radius: TEdit;
+    lbl_radius: TLabel;
+    tb_radius: TTrackBar;
     Timer1: TTimer;
     tb_kecepatan: TTrackBar;
     procedure FormCreate(Sender: TObject);
     procedure tb_kecepatanChange(Sender: TObject);
+    procedure tb_radiusChange(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     type
@@ -279,6 +283,11 @@ begin
   ed_kecepatan.text := inttostr(tb_kecepatan.Position);
 end;
 
+procedure TFormStar.tb_radiusChange(Sender: TObject);
+begin
+  ed_radius.text := inttostr(tb_radius.Position);
+end;
+
 // draw
 procedure TFormStar.Timer1Timer(Sender: TObject);
 var
@@ -309,7 +318,7 @@ begin
   for k:=1 to 500 do
   begin
     line(titik[k].x, titik[k].y, titik[k].z, titik[k].x, titik[k].y, titik[k].z - 4*kecepatan);
-    ellipse(titik[k], 8);
+    ellipse(titik[k], tb_radius.Position);
   end;
 end;
 
