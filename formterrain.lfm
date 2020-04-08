@@ -1,27 +1,143 @@
 object FormMatrix: TFormMatrix
-  Left = 361
-  Height = 618
-  Top = 219
-  Width = 1109
-  Caption = 'FormMatrix'
-  ClientHeight = 618
-  ClientWidth = 1109
-  DesignTimePPI = 120
+  Left = 248
+  Height = 928
+  Top = 43
+  Width = 1542
+  Caption = 'Perlin Terrain By Jayaku Briiantio 32180088'
+  ClientHeight = 928
+  ClientWidth = 1542
+  DesignTimePPI = 144
   OnCreate = FormCreate
   OnHide = FormHide
   OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object Image1: TImage
-    Left = 28
-    Height = 542
-    Top = 12
-    Width = 1052
+    Left = 34
+    Height = 769
+    Top = 14
+    Width = 1473
     Anchors = [akTop, akLeft, akRight, akBottom]
+  end
+  object TrackBarDx: TTrackBar
+    Left = 80
+    Height = 38
+    Top = 808
+    Width = 600
+    OnChange = TrackBarDxChange
+    Position = 4
+    Anchors = [akLeft, akBottom]
+    TabOrder = 0
+  end
+  object Label1: TLabel
+    Left = 40
+    Height = 25
+    Top = 808
+    Width = 23
+    Anchors = [akLeft, akRight, akBottom]
+    Caption = 'dx:'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 40
+    Height = 25
+    Top = 856
+    Width = 23
+    Anchors = [akLeft, akRight, akBottom]
+    Caption = 'dz:'
+    ParentColor = False
+  end
+  object TrackBarDz: TTrackBar
+    Left = 80
+    Height = 38
+    Top = 848
+    Width = 600
+    OnChange = TrackBarDzChange
+    Position = 4
+    Anchors = [akLeft, akBottom]
+    TabOrder = 1
+  end
+  object Label3: TLabel
+    Left = 786
+    Height = 25
+    Top = 808
+    Width = 19
+    Anchors = [akRight, akBottom]
+    Caption = 'vt:'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    Left = 784
+    Height = 25
+    Top = 861
+    Width = 33
+    Anchors = [akRight, akBottom]
+    Caption = 'size:'
+    ParentColor = False
+  end
+  object TrackBarVt: TTrackBar
+    Left = 832
+    Height = 38
+    Top = 808
+    Width = 600
+    Max = 50
+    Min = -50
+    OnChange = TrackBarVtChange
+    Position = 0
+    Anchors = [akRight, akBottom]
+    TabOrder = 2
+  end
+  object TrackBarSize: TTrackBar
+    Left = 832
+    Height = 38
+    Top = 848
+    Width = 600
+    Max = 200
+    Min = 50
+    OnChange = TrackBarSizeChange
+    Position = 50
+    Anchors = [akRight, akBottom]
+    TabOrder = 3
+  end
+  object EditDx: TEdit
+    Left = 688
+    Height = 33
+    Top = 808
+    Width = 72
+    Anchors = [akLeft, akBottom]
+    TabOrder = 4
+    Text = '4'
+  end
+  object EditDz: TEdit
+    Left = 688
+    Height = 33
+    Top = 848
+    Width = 72
+    Anchors = [akLeft, akBottom]
+    TabOrder = 5
+    Text = '4'
+  end
+  object EditVt: TEdit
+    Left = 1435
+    Height = 33
+    Top = 808
+    Width = 72
+    Anchors = [akRight, akBottom]
+    TabOrder = 6
+    Text = '0'
+  end
+  object EditS: TEdit
+    Left = 1435
+    Height = 33
+    Top = 848
+    Width = 72
+    Anchors = [akRight, akBottom]
+    TabOrder = 7
+    Text = '50'
   end
   object Timer1: TTimer
     Interval = 33
     OnTimer = Timer1Timer
-    left = 27
-    top = 16
+    left = 32
+    top = 19
   end
 end

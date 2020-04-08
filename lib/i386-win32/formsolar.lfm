@@ -1,11 +1,11 @@
 object FormSol: TFormSol
-  Left = 343
+  Left = -38
   Height = 1004
-  Top = 75
+  Top = 34
   Width = 1924
   Caption = 'FormSol'
-  ClientHeight = 1004
-  ClientWidth = 1924
+  ClientHeight = 0
+  ClientWidth = 0
   DesignTimePPI = 144
   OnCreate = FormCreate
   OnShow = FormShow
@@ -56,6 +56,7 @@ object FormSol: TFormSol
     TabOrder = 3
   end
   object FPS: TTimer
+    Interval = 33
     OnTimer = FPSTimer
     left = 32
     top = 16

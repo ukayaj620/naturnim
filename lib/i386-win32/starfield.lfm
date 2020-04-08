@@ -1,55 +1,96 @@
 object FormStar: TFormStar
-  Left = 336
-  Height = 871
-  Top = 128
-  Width = 1397
-  Caption = 'FormStar'
-  ClientHeight = 871
-  ClientWidth = 1397
+  Left = 266
+  Height = 892
+  Top = 136
+  Width = 1600
+  Caption = 'Star Field by Ferdy Nicolas 32180018'
+  ClientHeight = 0
+  ClientWidth = 0
   DesignTimePPI = 144
   OnCreate = FormCreate
+  OnHide = FormHide
+  OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object Image1: TImage
-    Left = 10
-    Height = 787
-    Top = 10
-    Width = 1373
+    Left = 72
+    Height = 720
+    Top = 24
+    Width = 1448
+    Anchors = [akTop, akLeft, akRight, akBottom]
   end
   object tb_kecepatan: TTrackBar
     Left = 144
-    Height = 37
-    Top = 816
-    Width = 1114
+    Height = 44
+    Top = 776
+    Width = 1232
     Max = 50
+    Min = -50
     OnChange = tb_kecepatanChange
     Position = 0
+    Anchors = [akLeft, akRight, akBottom]
     ParentFont = False
     TabOrder = 0
   end
   object lbl_kecepatan: TLabel
-    Left = 10
+    Left = 56
     Height = 25
-    Top = 816
+    Top = 776
     Width = 90
+    Anchors = [akLeft, akBottom]
     Caption = 'Kecepatan :'
     ParentColor = False
     ParentFont = False
   end
   object ed_kecepatan: TEdit
-    Left = 1258
+    Left = 1408
     Height = 33
-    Top = 816
-    Width = 125
+    Top = 776
+    Width = 150
     Alignment = taCenter
+    Anchors = [akRight, akBottom]
     Enabled = False
     ParentFont = False
     TabOrder = 1
     Text = '0'
   end
+  object lbl_radius: TLabel
+    Left = 56
+    Height = 25
+    Top = 824
+    Width = 62
+    Anchors = [akLeft, akBottom]
+    Caption = 'Radius :'
+    ParentColor = False
+    ParentFont = False
+  end
+  object tb_radius: TTrackBar
+    Left = 144
+    Height = 37
+    Top = 824
+    Width = 1233
+    Max = 20
+    OnChange = tb_radiusChange
+    Position = 8
+    Anchors = [akLeft, akRight, akBottom]
+    ParentFont = False
+    TabOrder = 2
+  end
+  object ed_radius: TEdit
+    Left = 1408
+    Height = 33
+    Top = 824
+    Width = 150
+    Alignment = taCenter
+    Anchors = [akRight, akBottom]
+    Enabled = False
+    ParentFont = False
+    TabOrder = 3
+    Text = '8'
+  end
   object Timer1: TTimer
     Interval = 11
     OnTimer = Timer1Timer
-    left = 10
-    top = 10
+    left = 24
+    top = 24
   end
 end

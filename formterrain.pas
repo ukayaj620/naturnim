@@ -5,19 +5,36 @@ unit FormTerrain;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Math;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
+  StdCtrls, Math;
 
 type
 
   { TFormMatrix }
 
   TFormMatrix = class(TForm)
+    EditDx: TEdit;
+    EditDz: TEdit;
+    EditVt: TEdit;
+    EditS: TEdit;
     Image1: TImage;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
     Timer1: TTimer;
+    TrackBarDx: TTrackBar;
+    TrackBarDz: TTrackBar;
+    TrackBarVt: TTrackBar;
+    TrackBarSize: TTrackBar;
     procedure FormCreate(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
+    procedure TrackBarVtChange(Sender: TObject);
+    procedure TrackBarDxChange(Sender: TObject);
+    procedure TrackBarDzChange(Sender: TObject);
+    procedure TrackBarSizeChange(Sender: TObject);
   private
     type
       Vector3 = record
@@ -31,8 +48,9 @@ type
       list_vertex: array of Vector3;
       list_vertex_count: Longint;
       w, h: integer;
-      dx, dy, dt: double;
+      dx, dy, dt, vt: double;
       isShow: boolean;
+      sizeBox: integer;
     const
       p : array[0..255] of byte = (
         151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225,
@@ -393,6 +411,7 @@ begin
    dt:= 0;
    dx:= 4;
    dy:= 4;
+   sizeBox:= 50;
 end;
 
 // draw
@@ -400,8 +419,6 @@ procedure TFormMatrix.Timer1Timer(Sender: TObject);
 var
   i, j: integer;
   y: double;
-
-  size: integer;
   point: Vector3;
   n: LongInt;
 begin
@@ -411,30 +428,52 @@ begin
     noFill();
     stroke(clWhite);
 
-    size:= 50;
-
-    n := Round(2 * (1+w*4/size));
-    i:= -2000;
+    n := Round(2 * (1+w*4/sizeBox));
+    i:= -3000;
     while i <= 200 do
     begin
       beginShape(n);
       j:= -w*2;
       while j <= w*2 do
       begin
-        y:= customPerlinNoise(j+w*2, i+2000);
+        y:= customPerlinNoise(j+w*2, i+3000);
         point:= rotateX(j, y-500, i, 30);
         vertex(point);
 
-        y:= customPerlinNoise(j+w*2, i+2000+size);
-        point:= rotateX(j, y-500, i+size, 30);
+        y:= customPerlinNoise(j+w*2, i+3000+sizeBox);
+        point:= rotateX(j, y-500, i+sizeBox, 30);
         vertex(point);
-        j:= j+size;
+        j:= j+sizeBox;
       end;
       endShape();
-      i:= i + size;
+      i:= i + sizeBox;
     end;
-    dt:= dt + 0.1;
+    dt:= dt + vt * 0.01;
   end;
+end;
+
+procedure TFormMatrix.TrackBarVtChange(Sender: TObject);
+begin
+  vt:= TrackBarVt.Position;
+  EditVt.Text:= IntToStr(TrackBarVt.Position);
+end;
+
+procedure TFormMatrix.TrackBarDxChange(Sender: TObject);
+begin
+  dx:= TrackBarDx.Position;
+  EditDx.Text:= IntToStr(TrackBarDx.Position);
+end;
+
+procedure TFormMatrix.TrackBarDzChange(Sender: TObject);
+begin
+  dy:= TrackBarDz.Position;
+  EditDz.Text:= IntToStr(TrackBarDz.Position);
+end;
+
+procedure TFormMatrix.TrackBarSizeChange(Sender: TObject);
+begin
+  sizeBox:= TrackBarSize.Position;
+  EditS.Text:= IntToStr(TrackBarSize.Position);
 end;
 
 end.
