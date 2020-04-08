@@ -16,10 +16,14 @@ type
     ed_kecepatan: TEdit;
     Image1: TImage;
     lbl_kecepatan: TLabel;
+    ed_radius: TEdit;
+    lbl_radius: TLabel;
+    tb_radius: TTrackBar;
     Timer1: TTimer;
     tb_kecepatan: TTrackBar;
     procedure FormCreate(Sender: TObject);
     procedure tb_kecepatanChange(Sender: TObject);
+    procedure tb_radiusChange(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     type
@@ -187,7 +191,7 @@ begin
   pointMonitor1 := projectTo2D(x1,y1,z1);
   pointMonitor2 := projectTo2D(x2,y2,z2);
 
-  if (z1 <> CONST_M) and (z2 <> CONST_M) and (CONST_M <> 0) then
+  if (z1 < CONST_M) and (z2 < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
   end;
@@ -202,7 +206,7 @@ begin
   pointMonitor2 := projectTo2D(pos2.x, pos2.y, pos2.z);
 
 
-  if (pos1.z <> CONST_M) and (pos2.z <> CONST_M) and (CONST_M <> 0) then
+  if (pos1.z < CONST_M) and (pos2.z < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
   end;
@@ -279,6 +283,11 @@ begin
   ed_kecepatan.text := inttostr(tb_kecepatan.Position);
 end;
 
+procedure TFormStar.tb_radiusChange(Sender: TObject);
+begin
+  ed_radius.text := inttostr(tb_radius.Position);
+end;
+
 // draw
 procedure TFormStar.Timer1Timer(Sender: TObject);
 var
@@ -296,7 +305,14 @@ begin
     begin
        titik[k].x := -2000 + Random() * 4000;
        titik[k].y := -2000 + Random() * 4000;
-       titik[k].z := titik[k].z -2000;
+       titik[k].z := titik[k].z - 2000 - CONST_M;
+    end;
+
+    if titik[k].z < -2000 then
+    begin
+       titik[k].x := -2000 + Random() * 4000;
+       titik[k].y := -2000 + Random() * 4000;
+       titik[k].z := titik[k].z + 2000 + CONST_M;
     end;
   end;
 
@@ -309,7 +325,7 @@ begin
   for k:=1 to 500 do
   begin
     line(titik[k].x, titik[k].y, titik[k].z, titik[k].x, titik[k].y, titik[k].z - 4*kecepatan);
-    ellipse(titik[k], 8);
+    ellipse(titik[k], tb_radius.Position);
   end;
 end;
 
