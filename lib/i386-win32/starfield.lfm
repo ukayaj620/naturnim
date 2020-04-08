@@ -1,52 +1,55 @@
 object FormStar: TFormStar
   Left = 336
-  Height = 726
+  Height = 871
   Top = 128
-  Width = 1164
+  Width = 1397
   Caption = 'FormStar'
-  ClientHeight = 726
-  ClientWidth = 1164
-  DesignTimePPI = 120
+  ClientHeight = 871
+  ClientWidth = 1397
+  DesignTimePPI = 144
   OnCreate = FormCreate
   LCLVersion = '2.0.6.0'
   object Image1: TImage
-    Left = 8
-    Height = 656
-    Top = 8
-    Width = 1144
+    Left = 10
+    Height = 787
+    Top = 10
+    Width = 1373
   end
   object tb_kecepatan: TTrackBar
-    Left = 120
-    Height = 31
-    Top = 680
-    Width = 928
+    Left = 144
+    Height = 37
+    Top = 816
+    Width = 1114
     Max = 50
     OnChange = tb_kecepatanChange
     Position = 0
+    ParentFont = False
     TabOrder = 0
   end
   object lbl_kecepatan: TLabel
-    Left = 8
+    Left = 10
     Height = 25
-    Top = 680
-    Width = 97
+    Top = 816
+    Width = 90
     Caption = 'Kecepatan :'
     ParentColor = False
+    ParentFont = False
   end
   object ed_kecepatan: TEdit
-    Left = 1048
+    Left = 1258
     Height = 33
-    Top = 680
-    Width = 104
+    Top = 816
+    Width = 125
     Alignment = taCenter
     Enabled = False
+    ParentFont = False
     TabOrder = 1
     Text = '0'
   end
   object Timer1: TTimer
     Interval = 11
     OnTimer = Timer1Timer
-    left = 8
-    top = 8
+    left = 10
+    top = 10
   end
 end

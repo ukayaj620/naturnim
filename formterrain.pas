@@ -5,10 +5,17 @@ unit FormTerrain;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Math;
 
 type
+
+  { TFormMatrix }
+
   TFormMatrix = class(TForm)
+    Image1: TImage;
+    Timer1: TTimer;
+    procedure FormCreate(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
     type
       Vector3 = record
@@ -21,6 +28,8 @@ type
       CONST_M: double;
       list_vertex: array of Vector3;
       list_vertex_count: Longint;
+      w, h: integer;
+      dx, dy, dt: double;
     const
       p : array[0..255] of byte = (
         151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225,
@@ -47,6 +56,8 @@ type
     // core function
     function projectTo2D(x:double; y:double; z:double): TPoint;
     function projectTo2D(pos:Vector3): TPoint;
+    function rotateX(x: double; y: double; z: double; degree: double): Vector3;
+    function rotateX(pos: Vector3; degree: double): Vector3;
 
     // drawing utility
     procedure clearCanvas();
@@ -68,6 +79,7 @@ type
     function fade(t: double): double;
     function grad(hash: integer; x: double; y: double): double;
     function noisePerlin(x: double; y: double): double;
+    function customPerlinNoise(x: double; y: double): double;
     {%endregion}
 
   end;
@@ -81,7 +93,7 @@ implementation
 
 // Perlin Noise Library
 {%region /fold}
-function TFormMatrix.lerp(fade: double; d1: double, d2: double): double;
+function TFormMatrix.lerp(fade: double; d1: double; d2: double): double;
 begin
   lerp:= ((1.0 - fade) * d1 + fade * d2);
 end;
@@ -111,29 +123,36 @@ var
   xf, yf, d1, d2, d3, d4: double;
   xff, yff, x1Inter, x2Inter, yInter: double;
 begin
-  xi = (int) floor(x) AND 255;
-  yi = (int) floor(y) AND 255;
-  g1 = p[p[xi] + yi];
-  g2 = p[p[xi + 1] + yi];
-  g3 = p[p[xi] + yi + 1];
-  g4 = p[p[xi + 1] + yi + 1];
+  xi:= floor(x) AND 255;
+  yi:= floor(y) AND 255;
+  g1:= p[p[xi] + yi];
+  g2:= p[p[xi + 1] + yi];
+  g3:= p[p[xi] + yi + 1];
+  g4:= p[p[xi + 1] + yi + 1];
 
-  xf = x - floor(x);
-  yf = y - floor(y);
+  xf:= x - floor(x);
+  yf:= y - floor(y);
 
-  d1 = grad(g1, xf, yf);
-  d2 = grad(g2, xf - 1, yf);
-  d3 = grad(g3, xf, yf - 1);
-  d4 = grad(g4, xf - 1, yf - 1);
+  d1:= grad(g1, xf, yf);
+  d2:= grad(g2, xf - 1, yf);
+  d3:= grad(g3, xf, yf - 1);
+  d4:= grad(g4, xf - 1, yf - 1);
 
-  xff = fade(xf);
-  yff = fade(yf);
+  xff:= fade(xf);
+  yff:= fade(yf);
 
-  x1Inter = lerp(xff, d1, d2);
-  x2Inter = lerp(xff, d3, d4);
-  yInter = lerp(yff, x1Inter, x2Inter);
+  x1Inter:= lerp(xff, d1, d2);
+  x2Inter:= lerp(xff, d3, d4);
+  yInter:= lerp(yff, x1Inter, x2Inter);
 
   noisePerlin:= yInter;
+end;
+
+function TFormMatrix.customPerlinNoise(x: double; y: double): double;
+begin
+  x := (x+w) * dx/(w*2);
+  y := (y+w) * dy/(w*2);
+  customPerlinNoise := noisePerlin(x, y-dt) * h;
 end;
 {%endregion}
 
@@ -165,6 +184,31 @@ begin
   end;
   projectTo2D := hasil;
 end;
+
+function TFormMatrix.rotateX(x: double; y: double; z: double; degree: double): Vector3;
+var
+  hasil: Vector3;
+  rad: double;
+begin
+  rad:= degree*PI/180;
+  hasil.x:= x;
+  hasil.y:= y*Cos(rad) - z*Sin(rad);
+  hasil.z:= y*Sin(rad) + z*Cos(rad);
+  rotateX:= hasil;
+end;
+
+function TFormMatrix.rotateX(pos: Vector3; degree: double): Vector3;
+var
+  hasil: Vector3;
+  rad: double;
+begin
+  rad:= degree*PI/180;
+  hasil.x:= pos.x;
+  hasil.y:= pos.y*Cos(rad) - pos.z*Sin(rad);
+  hasil.z:= pos.y*Sin(rad) + pos.z*Cos(rad);
+  rotateX:= hasil;
+end;
+
 {%endregion}
 
 /// drawing utility
@@ -257,7 +301,7 @@ begin
   pointMonitor1 := projectTo2D(x1,y1,z1);
   pointMonitor2 := projectTo2D(x2,y2,z2);
 
-  if (z1 <> CONST_M) and (z2 <> CONST_M) and (CONST_M <> 0) then
+  if (z1 < CONST_M) and (z2 < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
   end;
@@ -272,7 +316,7 @@ begin
   pointMonitor2 := projectTo2D(pos2.x, pos2.y, pos2.z);
 
 
-  if (pos1.z <> CONST_M) and (pos2.z <> CONST_M) and (CONST_M <> 0) then
+  if (pos1.z < CONST_M) and (pos2.z < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
   end;
@@ -292,28 +336,28 @@ begin
   temp.y := y;
   temp.z := z;
 
-  list_vertex_count := list_vertex_count + 1;
   list_vertex[list_vertex_count] := temp;
+  list_vertex_count := list_vertex_count + 1;
 end;
 
 procedure TFormMatrix.vertex(pos: Vector3);
 begin
-  list_vertex_count := list_vertex_count + 1;
   list_vertex[list_vertex_count] := pos;
+  list_vertex_count := list_vertex_count + 1;
 end;
 
 procedure TFormMatrix.endShape();
 var
   k : longInt;
 begin
-  if list_vertex_count > 1 then
+  if list_vertex_count > 0 then
   begin
      line(list_vertex[1], list_vertex[2]);
   end;
 
-  if list_vertex_count > 2 then
+  if list_vertex_count > 1 then
   begin
-    for k:=3 to list_vertex_count do
+    for k:=2 to list_vertex_count do
     begin
       line(list_vertex[k], list_vertex[k-1]);
       line(list_vertex[k], list_vertex[k-2]);
@@ -322,6 +366,53 @@ begin
 end;
 {%endregion}
 {%endregion}
+
+// setup
+procedure TFormMatrix.FormCreate(Sender: TObject);
+begin
+   CONST_M:= 500;
+   clearCanvas();
+   h:= Image1.Height;
+   w:= Image1.Width;
+   dx:= 2;
+   dy:= 2;
+   dt:= 0;
+end;
+
+// draw
+procedure TFormMatrix.Timer1Timer(Sender: TObject);
+var
+  i, j: integer;
+  y: double;
+  size: integer;
+  point: Vector3;
+begin
+  clearCanvas();
+  noFill();
+  stroke(clWhite);
+  size:= 100;
+
+  i:= -2000;
+  while i <= 200 do
+  begin
+    beginShape(100);
+    j:= -w*2;
+    while j <= w*2 do
+    begin
+      y:= customPerlinNoise(j, i);
+      point:= rotateX(j, y-500, i, 30);
+      vertex(point);
+
+      y:= customPerlinNoise(j, i+size);
+      point:= rotateX(j, y-500, i+size, 30);
+      vertex(point);
+      j:= j+size;
+    end;
+    endShape();
+    i:= i + size;
+  end;
+  dt:= dt + 0.01;
+end;
 
 end.
 

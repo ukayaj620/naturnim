@@ -1,9 +1,25 @@
 object FormMatrix: TFormMatrix
-  Left = 472
-  Height = 300
-  Top = 309
-  Width = 400
+  Left = 296
+  Height = 741
+  Top = 162
+  Width = 1331
   Caption = 'FormMatrix'
-  DesignTimePPI = 120
+  ClientHeight = 741
+  ClientWidth = 1331
+  DesignTimePPI = 144
+  OnCreate = FormCreate
   LCLVersion = '2.0.6.0'
+  object Image1: TImage
+    Left = 33
+    Height = 649
+    Top = 15
+    Width = 1263
+    Anchors = [akTop, akLeft, akRight, akBottom]
+  end
+  object Timer1: TTimer
+    Interval = 11
+    OnTimer = Timer1Timer
+    left = 32
+    top = 688
+  end
 end
