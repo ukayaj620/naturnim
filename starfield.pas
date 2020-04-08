@@ -22,6 +22,8 @@ type
     Timer1: TTimer;
     tb_kecepatan: TTrackBar;
     procedure FormCreate(Sender: TObject);
+    procedure FormHide(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure tb_kecepatanChange(Sender: TObject);
     procedure tb_radiusChange(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -37,6 +39,7 @@ type
       CONST_M: double;
       list_vertex: array of Vector3;
       list_vertex_count: Longint;
+      isShow: Boolean;
 
       titik: Array[1..500] of Vector3;
       kecepatan: double;
@@ -260,12 +263,33 @@ end;
 
 // EVENT HANDLING
 
+procedure TFormStar.tb_kecepatanChange(Sender: TObject);
+begin
+  ed_kecepatan.text := inttostr(tb_kecepatan.Position);
+end;
+
+procedure TFormStar.tb_radiusChange(Sender: TObject);
+begin
+  ed_radius.text := inttostr(tb_radius.Position);
+end;
+
+procedure TFormStar.FormHide(Sender: TObject);
+begin
+  isShow := false;
+end;
+
+procedure TFormStar.FormShow(Sender: TObject);
+begin
+  isShow := true;
+end;
+
 // Setup
 procedure TFormStar.FormCreate(Sender: TObject);
 var
   k : integer;
 begin
   CONST_M := 200;
+  isShow := false;
 
   Randomize();
   for k:=1 to 500 do
@@ -278,54 +302,46 @@ begin
   kecepatan := 0;
 end;
 
-procedure TFormStar.tb_kecepatanChange(Sender: TObject);
-begin
-  ed_kecepatan.text := inttostr(tb_kecepatan.Position);
-end;
-
-procedure TFormStar.tb_radiusChange(Sender: TObject);
-begin
-  ed_radius.text := inttostr(tb_radius.Position);
-end;
-
 // draw
 procedure TFormStar.Timer1Timer(Sender: TObject);
 var
   k : integer;
 begin
-
-  // update
-  kecepatan := tb_Kecepatan.Position;
-
-  for k:=1 to 500 do
+  if isShow then
   begin
-    titik[k].z := titik[k].z + kecepatan;
+    // update
+    kecepatan := tb_Kecepatan.Position;
 
-    if titik[k].z > CONST_M then
+    for k:=1 to 500 do
     begin
-       titik[k].x := -2000 + Random() * 4000;
-       titik[k].y := -2000 + Random() * 4000;
-       titik[k].z := titik[k].z - 2000 - CONST_M;
+      titik[k].z := titik[k].z + kecepatan;
+
+      if titik[k].z > CONST_M then
+      begin
+         titik[k].x := -2000 + Random() * 4000;
+         titik[k].y := -2000 + Random() * 4000;
+         titik[k].z := titik[k].z - 2000 - CONST_M;
+      end;
+
+      if titik[k].z < -2000 then
+      begin
+         titik[k].x := -2000 + Random() * 4000;
+         titik[k].y := -2000 + Random() * 4000;
+         titik[k].z := titik[k].z + 2000 + CONST_M;
+      end;
     end;
 
-    if titik[k].z < -2000 then
+
+    // draw
+    clearCanvas();
+
+    stroke(clWhite);
+    fill(clWhite);
+    for k:=1 to 500 do
     begin
-       titik[k].x := -2000 + Random() * 4000;
-       titik[k].y := -2000 + Random() * 4000;
-       titik[k].z := titik[k].z + 2000 + CONST_M;
+      line(titik[k].x, titik[k].y, titik[k].z, titik[k].x, titik[k].y, titik[k].z - 4*kecepatan);
+      ellipse(titik[k], tb_radius.Position);
     end;
-  end;
-
-
-  // draw
-  clearCanvas();
-
-  stroke(clWhite);
-  fill(clWhite);
-  for k:=1 to 500 do
-  begin
-    line(titik[k].x, titik[k].y, titik[k].z, titik[k].x, titik[k].y, titik[k].z - 4*kecepatan);
-    ellipse(titik[k], tb_radius.Position);
   end;
 end;
 

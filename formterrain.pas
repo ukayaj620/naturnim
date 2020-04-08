@@ -15,6 +15,8 @@ type
     Image1: TImage;
     Timer1: TTimer;
     procedure FormCreate(Sender: TObject);
+    procedure FormHide(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     type
@@ -30,6 +32,7 @@ type
       list_vertex_count: Longint;
       w, h: integer;
       dx, dy, dt: double;
+      isShow: boolean;
     const
       p : array[0..255] of byte = (
         151, 160, 137, 91, 90, 15, 131, 13, 201, 95, 96, 53, 194, 233, 7, 225,
@@ -367,6 +370,17 @@ end;
 {%endregion}
 {%endregion}
 
+// EVENT HANDLING
+procedure TFormMatrix.FormHide(Sender: TObject);
+begin
+  isShow := false;
+end;
+
+procedure TFormMatrix.FormShow(Sender: TObject);
+begin
+  isShow := true;
+end;
+
 // setup
 procedure TFormMatrix.FormCreate(Sender: TObject);
 begin
@@ -374,6 +388,8 @@ begin
    clearCanvas();
    h:= Image1.Height;
    w:= Image1.Width;
+   isShow := false;
+
    dt:= 0;
    dx:= 4;
    dy:= 4;
@@ -389,33 +405,36 @@ var
   point: Vector3;
   n: LongInt;
 begin
-  clearCanvas();
-  noFill();
-  stroke(clWhite);
-
-  size:= 50;
-
-  n := Round(2 * (1+w*4/size));
-  i:= -2000;
-  while i <= 200 do
+  if isShow then
   begin
-    beginShape(n);
-    j:= -w*2;
-    while j <= w*2 do
-    begin
-      y:= customPerlinNoise(j+w*2, i+2000);
-      point:= rotateX(j, y-500, i, 30);
-      vertex(point);
+    clearCanvas();
+    noFill();
+    stroke(clWhite);
 
-      y:= customPerlinNoise(j+w*2, i+2000+size);
-      point:= rotateX(j, y-500, i+size, 30);
-      vertex(point);
-      j:= j+size;
+    size:= 50;
+
+    n := Round(2 * (1+w*4/size));
+    i:= -2000;
+    while i <= 200 do
+    begin
+      beginShape(n);
+      j:= -w*2;
+      while j <= w*2 do
+      begin
+        y:= customPerlinNoise(j+w*2, i+2000);
+        point:= rotateX(j, y-500, i, 30);
+        vertex(point);
+
+        y:= customPerlinNoise(j+w*2, i+2000+size);
+        point:= rotateX(j, y-500, i+size, 30);
+        vertex(point);
+        j:= j+size;
+      end;
+      endShape();
+      i:= i + size;
     end;
-    endShape();
-    i:= i + size;
+    dt:= dt + 0.1;
   end;
-  dt:= dt + 0.1;
 end;
 
 end.
