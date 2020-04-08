@@ -1,0 +1,62 @@
+object FormSol: TFormSol
+  Left = 239
+  Height = 837
+  Top = 76
+  Width = 1606
+  Caption = 'FormSol'
+  ClientHeight = 837
+  ClientWidth = 1606
+  DesignTimePPI = 120
+  OnCreate = FormCreate
+  OnShow = FormShow
+  LCLVersion = '2.0.6.0'
+  object ImageUtama: TImage
+    Left = 23
+    Height = 756
+    Top = 11
+    Width = 1557
+  end
+  object BtnClose: TButton
+    Left = 760
+    Height = 32
+    Top = 780
+    Width = 94
+    Caption = 'Close'
+    ParentFont = False
+    TabOrder = 0
+  end
+  object BtnStart: TButton
+    Left = 540
+    Height = 32
+    Top = 780
+    Width = 94
+    Caption = 'Start'
+    OnClick = BtnStartClick
+    ParentFont = False
+    TabOrder = 1
+  end
+  object BtnStop: TButton
+    Left = 973
+    Height = 32
+    Top = 780
+    Width = 94
+    Caption = 'Stop'
+    ParentFont = False
+    TabOrder = 2
+  end
+  object BtnRotate: TButton
+    Left = 327
+    Height = 32
+    Top = 780
+    Width = 94
+    Caption = 'Rotate'
+    OnClick = BtnRotateClick
+    ParentFont = False
+    TabOrder = 3
+  end
+  object FPS: TTimer
+    OnTimer = FPSTimer
+    left = 27
+    top = 13
+  end
+end
