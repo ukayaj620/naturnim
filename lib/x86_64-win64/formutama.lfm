@@ -8,22 +8,31 @@ object FormMaster: TFormMaster
   ClientWidth = 400
   DesignTimePPI = 120
   LCLVersion = '2.0.6.0'
-  object Button1: TButton
-    Left = 144
+  object btn_Solar: TButton
+    Left = 120
     Height = 31
-    Top = 96
-    Width = 94
-    Caption = 'Button1'
-    OnClick = Button1Click
+    Top = 48
+    Width = 150
+    Caption = 'Solar System'
+    OnClick = btn_SolarClick
     TabOrder = 0
   end
-  object Button2: TButton
-    Left = 144
+  object btn_Star: TButton
+    Left = 120
     Height = 31
-    Top = 184
-    Width = 94
-    Caption = 'Button2'
-    OnClick = Button2Click
+    Top = 128
+    Width = 150
+    Caption = 'Star Field'
+    OnClick = btn_StarClick
     TabOrder = 1
+  end
+  object btn_Terrain: TButton
+    Left = 120
+    Height = 31
+    Top = 208
+    Width = 150
+    Caption = 'Space Matrix'
+    OnClick = btn_TerrainClick
+    TabOrder = 2
   end
 end
