@@ -1,7 +1,7 @@
 object FormSol: TFormSol
-  Left = 343
+  Left = 344
   Height = 1004
-  Top = 75
+  Top = 57
   Width = 1924
   Caption = 'FormSol'
   ClientHeight = 1004
