@@ -31,19 +31,32 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="2">
+    <Units Count="4">
       <Unit0>
         <Filename Value="solar_system.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
+        <Filename Value="formsolar.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FormSol"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="FormSolar"/>
+      </Unit1>
+      <Unit2>
+        <Filename Value="starfield.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit2>
+      <Unit3>
         <Filename Value="formutama.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMaster"/>
-        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormUtama"/>
-      </Unit1>
+      </Unit3>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
