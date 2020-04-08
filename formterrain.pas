@@ -352,12 +352,12 @@ var
 begin
   if list_vertex_count > 0 then
   begin
-     line(list_vertex[1], list_vertex[2]);
+     line(list_vertex[0], list_vertex[1]);
   end;
 
   if list_vertex_count > 1 then
   begin
-    for k:=2 to list_vertex_count do
+    for k:=2 to list_vertex_count-1 do
     begin
       line(list_vertex[k], list_vertex[k-1]);
       line(list_vertex[k], list_vertex[k-2]);
@@ -374,9 +374,9 @@ begin
    clearCanvas();
    h:= Image1.Height;
    w:= Image1.Width;
-   dx:= 2;
-   dy:= 2;
    dt:= 0;
+   dx:= 4;
+   dy:= 4;
 end;
 
 // draw
@@ -384,26 +384,30 @@ procedure TFormMatrix.Timer1Timer(Sender: TObject);
 var
   i, j: integer;
   y: double;
+
   size: integer;
   point: Vector3;
+  n: LongInt;
 begin
   clearCanvas();
   noFill();
   stroke(clWhite);
-  size:= 100;
 
+  size:= 50;
+
+  n := Round(2 * (1+w*4/size));
   i:= -2000;
   while i <= 200 do
   begin
-    beginShape(100);
+    beginShape(n);
     j:= -w*2;
     while j <= w*2 do
     begin
-      y:= customPerlinNoise(j, i);
+      y:= customPerlinNoise(j+w*2, i+2000);
       point:= rotateX(j, y-500, i, 30);
       vertex(point);
 
-      y:= customPerlinNoise(j, i+size);
+      y:= customPerlinNoise(j+w*2, i+2000+size);
       point:= rotateX(j, y-500, i+size, 30);
       vertex(point);
       j:= j+size;
@@ -411,7 +415,7 @@ begin
     endShape();
     i:= i + size;
   end;
-  dt:= dt + 0.01;
+  dt:= dt + 0.1;
 end;
 
 end.

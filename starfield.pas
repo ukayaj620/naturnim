@@ -242,12 +242,12 @@ var
 begin
   if list_vertex_count > 0 then
   begin
-     line(list_vertex[1], list_vertex[2]);
+     line(list_vertex[0], list_vertex[1]);
   end;
 
   if list_vertex_count > 1 then
   begin
-    for k:=2 to list_vertex_count do
+    for k:=2 to list_vertex_count-1 do
     begin
       line(list_vertex[k], list_vertex[k-1]);
       line(list_vertex[k], list_vertex[k-2]);

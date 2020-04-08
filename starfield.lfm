@@ -1,11 +1,11 @@
 object FormStar: TFormStar
-  Left = 356
-  Height = 757
-  Top = 76
-  Width = 1164
+  Left = 272
+  Height = 903
+  Top = 15
+  Width = 1402
   Caption = 'Star Field by Ferdy Nicolas 32180018'
-  ClientHeight = 757
-  ClientWidth = 1164
+  ClientHeight = 903
+  ClientWidth = 1402
   DesignTimePPI = 120
   OnCreate = FormCreate
   LCLVersion = '2.0.6.0'
@@ -16,9 +16,9 @@ object FormStar: TFormStar
     Width = 1373
   end
   object tb_kecepatan: TTrackBar
-    Left = 144
+    Left = 128
     Height = 37
-    Top = 816
+    Top = 824
     Width = 1114
     Max = 50
     Min = -50
@@ -30,8 +30,8 @@ object FormStar: TFormStar
   object lbl_kecepatan: TLabel
     Left = 10
     Height = 25
-    Top = 816
-    Width = 90
+    Top = 824
+    Width = 97
     Caption = 'Kecepatan :'
     ParentColor = False
     ParentFont = False
@@ -50,26 +50,26 @@ object FormStar: TFormStar
   object lbl_radius: TLabel
     Left = 40
     Height = 25
-    Top = 720
+    Top = 864
     Width = 65
     Caption = 'Radius :'
     ParentColor = False
   end
   object tb_radius: TTrackBar
-    Left = 120
+    Left = 128
     Height = 31
-    Top = 720
-    Width = 928
+    Top = 864
+    Width = 1114
     Max = 20
     OnChange = tb_radiusChange
     Position = 8
     TabOrder = 2
   end
   object ed_radius: TEdit
-    Left = 1048
+    Left = 1255
     Height = 33
-    Top = 720
-    Width = 104
+    Top = 856
+    Width = 128
     Alignment = taCenter
     Enabled = False
     TabOrder = 3
