@@ -27,6 +27,9 @@ type
       list_vertex: array of Vector3;
       list_vertex_count: Longint;
   public
+    // The 3D Library
+    {%region /fold}
+
     // core function
     function projectTo2D(x:double; y:double; z:double): TPoint;
     function projectTo2D(pos:Vector3): TPoint;
@@ -46,6 +49,7 @@ type
     procedure vertex(x: double; y:double; z:double);
     procedure vertex(pos: Vector3);
     procedure endShape();
+    {%endregion}
   end;
 
 var
@@ -53,7 +57,11 @@ var
 
 implementation
 
-// core function
+// The 3D Library
+{%region /fold}
+
+/// core function
+{%region /fold}
 function TForm1.projectTo2D(x:double; y:double; z:double): TPoint;
 var
   hasil: TPoint;
@@ -77,9 +85,10 @@ begin
   end;
   projectTo2D := hasil;
 end;
+{%endregion}
 
-
-// drawing utility
+/// drawing utility
+{%region /fold}
 procedure TForm1.clearCanvas();
 begin
   noStroke();
@@ -224,6 +233,9 @@ begin
     end;
   end;
 end;
+{%endregion}
+{%endregion}
+
 
 // EVEBT HANDLING
 procedure TForm1.FormCreate(Sender: TObject);
