@@ -3,7 +3,7 @@ object FormStar: TFormStar
   Height = 757
   Top = 76
   Width = 1164
-  Caption = 'FormStar'
+  Caption = 'Star Field by Ferdy Nicolas 32180018'
   ClientHeight = 757
   ClientWidth = 1164
   DesignTimePPI = 120
@@ -21,6 +21,7 @@ object FormStar: TFormStar
     Top = 680
     Width = 928
     Max = 50
+    Min = -50
     OnChange = tb_kecepatanChange
     Position = 0
     TabOrder = 0

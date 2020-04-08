@@ -9,7 +9,7 @@
         <Filename Value="solar_system.lpr"/>
         <IsPartOfProject Value="True"/>
         <CursorPos X="31" Y="5"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
       </Unit0>
       <Unit1>
@@ -21,7 +21,7 @@
         <UnitName Value="FormSolar"/>
         <EditorIndex Value="1"/>
         <CursorPos X="6"/>
-        <UsageCount Value="43"/>
+        <UsageCount Value="45"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -31,11 +31,10 @@
         <ComponentName Value="FormStar"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="4"/>
-        <CursorPos X="22" Y="19"/>
-        <UsageCount Value="32"/>
+        <TopLine Value="294"/>
+        <CursorPos X="122" Y="298"/>
+        <UsageCount Value="34"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit2>
@@ -46,10 +45,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormUtama"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <TopLine Value="22"/>
-        <CursorPos X="71" Y="29"/>
-        <UsageCount Value="26"/>
+        <CursorPos X="81" Y="35"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit3>
@@ -61,7 +61,7 @@
         <UnitName Value="FormTerrain"/>
         <EditorIndex Value="4"/>
         <CursorPos X="2" Y="8"/>
-        <UsageCount Value="22"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit4>
       <Unit5>

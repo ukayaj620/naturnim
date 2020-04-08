@@ -3,7 +3,7 @@ object FormMaster: TFormMaster
   Height = 300
   Top = 338
   Width = 400
-  Caption = 'FormMaster'
+  Caption = 'Project Animasi Komputer Grafis'
   ClientHeight = 300
   ClientWidth = 400
   DesignTimePPI = 120

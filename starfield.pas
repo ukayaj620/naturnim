@@ -191,7 +191,7 @@ begin
   pointMonitor1 := projectTo2D(x1,y1,z1);
   pointMonitor2 := projectTo2D(x2,y2,z2);
 
-  if (z1 <> CONST_M) and (z2 <> CONST_M) and (CONST_M <> 0) then
+  if (z1 < CONST_M) and (z2 < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
   end;
@@ -206,7 +206,7 @@ begin
   pointMonitor2 := projectTo2D(pos2.x, pos2.y, pos2.z);
 
 
-  if (pos1.z <> CONST_M) and (pos2.z <> CONST_M) and (CONST_M <> 0) then
+  if (pos1.z < CONST_M) and (pos2.z < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
   end;
@@ -305,7 +305,14 @@ begin
     begin
        titik[k].x := -2000 + Random() * 4000;
        titik[k].y := -2000 + Random() * 4000;
-       titik[k].z := titik[k].z -2000;
+       titik[k].z := titik[k].z - 2000 - CONST_M;
+    end;
+
+    if titik[k].z < -2000 then
+    begin
+       titik[k].x := -2000 + Random() * 4000;
+       titik[k].y := -2000 + Random() * 4000;
+       titik[k].z := titik[k].z + 2000 + CONST_M;
     end;
   end;
 
