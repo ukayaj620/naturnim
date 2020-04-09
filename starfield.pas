@@ -457,9 +457,9 @@ begin
     begin
       titik := list_bintang[k].pos;
 
-      ketebalan := 2 / (1-titik.z/CONST_M); // dipasang ketebalan normalnya adalah 2
-      if ketebalan > 10 then
-         ketebalan := 10;
+      ketebalan := 0.25*tb_radius.Position / (1-titik.z/CONST_M);
+      if ketebalan > 50 then
+         ketebalan := 50;
 
       stroke(list_bintang[k].warna);
       StrokeWeight(ketebalan);
