@@ -1,55 +1,54 @@
 object FormSol: TFormSol
-  Left = -38
-  Height = 1004
-  Top = 34
-  Width = 1924
+  Left = 213
+  Height = 669
+  Top = 99
+  Width = 1283
   Caption = 'FormSol'
-  ClientHeight = 0
-  ClientWidth = 0
-  DesignTimePPI = 144
+  ClientHeight = 669
+  ClientWidth = 1283
   OnCreate = FormCreate
   OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object ImageUtama: TImage
-    Left = 28
-    Height = 907
-    Top = 13
-    Width = 1868
+    Left = 19
+    Height = 604
+    Top = 9
+    Width = 1245
     Anchors = [akTop, akLeft, akRight, akBottom]
   end
   object BtnClose: TButton
-    Left = 912
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 608
+    Height = 25
+    Top = 624
+    Width = 75
     Caption = 'Close'
     ParentFont = False
     TabOrder = 0
   end
   object BtnStart: TButton
-    Left = 648
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 432
+    Height = 25
+    Top = 624
+    Width = 75
     Caption = 'Start'
     OnClick = BtnStartClick
     ParentFont = False
     TabOrder = 1
   end
   object BtnStop: TButton
-    Left = 1168
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 779
+    Height = 25
+    Top = 624
+    Width = 75
     Caption = 'Stop'
     ParentFont = False
     TabOrder = 2
   end
   object BtnRotate: TButton
-    Left = 392
-    Height = 38
-    Top = 936
-    Width = 113
+    Left = 261
+    Height = 25
+    Top = 624
+    Width = 75
     Caption = 'Rotate'
     OnClick = BtnRotateClick
     ParentFont = False
@@ -58,7 +57,7 @@ object FormSol: TFormSol
   object FPS: TTimer
     Interval = 33
     OnTimer = FPSTimer
-    left = 32
-    top = 16
+    left = 21
+    top = 11
   end
 end

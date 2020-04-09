@@ -14,16 +14,20 @@ type
 
   TFormStar = class(TForm)
     ed_kecepatan: TEdit;
+    ed_jumlah: TEdit;
     Image1: TImage;
     lbl_kecepatan: TLabel;
     ed_radius: TEdit;
     lbl_radius: TLabel;
+    lbl_jumlah: TLabel;
     tb_radius: TTrackBar;
+    tb_jumlah: TTrackBar;
     Timer1: TTimer;
     tb_kecepatan: TTrackBar;
     procedure FormCreate(Sender: TObject);
     procedure FormHide(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure tb_jumlahChange(Sender: TObject);
     procedure tb_kecepatanChange(Sender: TObject);
     procedure tb_radiusChange(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
@@ -46,8 +50,9 @@ type
       list_vertex_count: Longint;
       isShow: Boolean;
 
-      list_bintang: Array[1..300] of Bintang;
+      list_bintang: Array[1..500] of Bintang;
       kecepatan: double;
+      jumlah: integer;
   public
     // The 3D Library
     {%region /fold}
@@ -354,6 +359,25 @@ begin
   ed_radius.text := inttostr(tb_radius.Position);
 end;
 
+procedure TFormStar.tb_jumlahChange(Sender: TObject);
+var
+  k, index : integer;
+  temp : Bintang;
+begin
+  // shuffle agar bintang yg berkurang atau bertambah adalah random
+  for k:=1 to jumlah do
+  begin
+    index := Random(jumlah)+1;
+
+    temp := list_bintang[index];
+    list_bintang[index] := list_bintang[k];
+    list_bintang[k] := temp;
+  end;
+
+  jumlah := tb_jumlah.Position * 10;
+  ed_jumlah.text := inttostr(jumlah);
+end;
+
 procedure TFormStar.FormHide(Sender: TObject);
 begin
   isShow := false;
@@ -375,7 +399,7 @@ begin
   isShow := false;
 
   Randomize();
-  for k:=1 to 300 do
+  for k:=1 to 500 do
   begin
     list_bintang[k].pos.x := -2000 + Random() * 4000;
     list_bintang[k].pos.y := -2000 + Random() * 4000;
@@ -385,7 +409,7 @@ begin
   end;
 
   // Insertion Sort berdasarkan posisi z
-  for k:=2 to 300 do
+  for k:=2 to jumlah do
   begin
     index := list_bintang[k];
     j := k;
@@ -410,9 +434,10 @@ begin
   if isShow then
   begin
     // update
+    jumlah := strtoint(ed_jumlah.Text);
     kecepatan := tb_Kecepatan.Position;
 
-    for k:=1 to 300 do
+    for k:=1 to jumlah do
     begin
       list_bintang[k].pos.z := list_bintang[k].pos.z + kecepatan;
       list_bintang[k].rotasi := list_bintang[k].rotasi + kecepatan;
@@ -438,7 +463,7 @@ begin
     end;
 
     // Insertion Sort berdasarkan posisi z
-    for k:=2 to 300 do
+    for k:=2 to jumlah do
     begin
       index := list_bintang[k];
       j := k;
@@ -453,7 +478,7 @@ begin
     // draw
     clearCanvas();
 
-    for k:=1 to 300 do
+    for k:=1 to jumlah do
     begin
       titik := list_bintang[k].pos;
 
