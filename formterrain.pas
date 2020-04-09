@@ -94,7 +94,6 @@ type
     procedure beginShape(size: LongInt);
     procedure vertex(x: double; y:double; z:double);
     procedure vertex(pos: Vector3);
-    procedure endShape();
 
     function lerp(fade: double; d1: double; d2: double): double;
     function fade(t: double): double;
@@ -166,6 +165,13 @@ begin
   x2Inter:= lerp(xff, d3, d4);
   yInter:= lerp(yff, x1Inter, x2Inter);
 
+  yInter := yInter + 0.5;
+
+  if yInter < 0 then
+     yInter := 0;
+  if yInter > 1 then
+     yInter := 1;
+
   noisePerlin:= yInter;
 end;
 
@@ -173,7 +179,7 @@ function TFormMatrix.customPerlinNoise(x: double; y: double): double;
 begin
   x := (x+w) * dx/(w*2);
   y := (y+w) * dy/(w*2);
-  customPerlinNoise := noisePerlin(x, y-dt) * h;
+  customPerlinNoise := noisePerlin(x, y-dt);
 end;
 {%endregion}
 
@@ -352,25 +358,14 @@ end;
 procedure TFormMatrix.vertex(x: double; y:double; z:double);
 var
   temp: Vector3;
+  triangle: array[1..3] of TPoint;
 begin
   temp.x := x;
   temp.y := y;
   temp.z := z;
 
   list_vertex[list_vertex_count] := temp;
-  list_vertex_count := list_vertex_count + 1;
-end;
 
-procedure TFormMatrix.vertex(pos: Vector3);
-begin
-  list_vertex[list_vertex_count] := pos;
-  list_vertex_count := list_vertex_count + 1;
-end;
-
-procedure TFormMatrix.endShape();
-var
-  k : longInt;
-begin
   if list_vertex_count > 0 then
   begin
      line(list_vertex[0], list_vertex[1]);
@@ -378,12 +373,35 @@ begin
 
   if list_vertex_count > 1 then
   begin
-    for k:=2 to list_vertex_count-1 do
-    begin
-      line(list_vertex[k], list_vertex[k-1]);
-      line(list_vertex[k], list_vertex[k-2]);
-    end;
+    triangle[1] := ProjectTo2D(list_vertex[list_vertex_count-2]);
+    triangle[2] := ProjectTo2D(list_vertex[list_vertex_count-1]);
+    triangle[3] := ProjectTo2D(list_vertex[list_vertex_count]);
+    Image1.Canvas.Polygon(triangle,true);;
   end;
+
+  list_vertex_count := list_vertex_count + 1;
+end;
+
+procedure TFormMatrix.vertex(pos: Vector3);
+var
+  triangle: array[1..3] of TPoint;
+begin
+  list_vertex[list_vertex_count] := pos;
+
+  if list_vertex_count > 0 then
+  begin
+     line(list_vertex[0], list_vertex[1]);
+  end;
+
+  if list_vertex_count > 1 then
+  begin
+    triangle[1] := ProjectTo2D(list_vertex[list_vertex_count-2]);
+    triangle[2] := ProjectTo2D(list_vertex[list_vertex_count-1]);
+    triangle[3] := ProjectTo2D(list_vertex[list_vertex_count]);
+    Image1.Canvas.Polygon(triangle,true);;
+  end;
+
+  list_vertex_count := list_vertex_count + 1;
 end;
 {%endregion}
 {%endregion}
@@ -421,12 +439,12 @@ var
   y: double;
   point: Vector3;
   n: LongInt;
+  red, green : Byte;
 begin
   if isShow then
   begin
     clearCanvas();
-    noFill();
-    stroke(clWhite);
+    stroke(clBlack);
 
     n := Round(2 * (1+w*4/sizeBox));
     i:= -3000;
@@ -436,16 +454,27 @@ begin
       j:= -w*2;
       while j <= w*2 do
       begin
+        // 1
         y:= customPerlinNoise(j+w*2, i+3000);
-        point:= rotateX(j, y-500, i, 30);
+        point:= rotateX(j, y*h-1000, i, 30);
+
+        green := Round(255*y);
+        red := 255-green;
+        fill(RGBToColor(red,green,0));
         vertex(point);
 
+        // 2
         y:= customPerlinNoise(j+w*2, i+3000+sizeBox);
-        point:= rotateX(j, y-500, i+sizeBox, 30);
+        point:= rotateX(j, y*h-1000, i+sizeBox, 30);
+
+        green := Round(255*y);
+        red := 255-green;
+        fill(RGBToColor(red,green,0));
         vertex(point);
+
+        // increment
         j:= j+sizeBox;
       end;
-      endShape();
       i:= i + sizeBox;
     end;
     dt:= dt + vt * 0.01;
