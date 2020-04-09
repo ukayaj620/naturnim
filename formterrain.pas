@@ -342,7 +342,6 @@ begin
   pointMonitor1 := projectTo2D(pos1.x, pos1.y, pos1.z);
   pointMonitor2 := projectTo2D(pos2.x, pos2.y, pos2.z);
 
-
   if (pos1.z < CONST_M) and (pos2.z < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
@@ -366,6 +365,8 @@ begin
 
   list_vertex[list_vertex_count] := temp;
 
+  // Metode pembuatan segitiga yg digunakan adalah TRIANGLE_STRIP
+
   if list_vertex_count > 0 then
   begin
      line(list_vertex[0], list_vertex[1]);
@@ -376,7 +377,7 @@ begin
     triangle[1] := ProjectTo2D(list_vertex[list_vertex_count-2]);
     triangle[2] := ProjectTo2D(list_vertex[list_vertex_count-1]);
     triangle[3] := ProjectTo2D(list_vertex[list_vertex_count]);
-    Image1.Canvas.Polygon(triangle,true);;
+    Image1.Canvas.Polygon(triangle,true);  // parameter (array of Tpoint, culling:Boolean); culling = isFilled
   end;
 
   list_vertex_count := list_vertex_count + 1;
@@ -388,6 +389,7 @@ var
 begin
   list_vertex[list_vertex_count] := pos;
 
+  // Metode pembuatan segitiga yg digunakan adalah TRIANGLE_STRI
   if list_vertex_count > 0 then
   begin
      line(list_vertex[0], list_vertex[1]);
@@ -398,7 +400,7 @@ begin
     triangle[1] := ProjectTo2D(list_vertex[list_vertex_count-2]);
     triangle[2] := ProjectTo2D(list_vertex[list_vertex_count-1]);
     triangle[3] := ProjectTo2D(list_vertex[list_vertex_count]);
-    Image1.Canvas.Polygon(triangle,true);;
+    Image1.Canvas.Polygon(triangle,true); // parameter (array of Tpoint, culling:Boolean); culling = isFilled
   end;
 
   list_vertex_count := list_vertex_count + 1;
@@ -426,9 +428,9 @@ begin
    w:= Image1.Width;
    isShow := false;
 
-   dt:= 0;
-   dx:= 4;
-   dy:= 4;
+   dt:= 0;       // untuk navigasi di sumbu y dari fungsi perlin
+   dx:= 4;       // dx dipakai dalam customPerlinNoise untuk mapping 0 < x < w*4 ke 0..dx
+   dy:= 4;       // dy dipakai dalam customPerlinNoise untuk mapping 0 < y < w*4 ke 0..dx
    sizeBox:= 50;
 end;
 
@@ -446,28 +448,30 @@ begin
     clearCanvas();
     stroke(clBlack);
 
-    n := Round(2 * (1+w*4/sizeBox));
-    i:= -3000;
-    while i <= 200 do
+    n := Round(2 * (1+w*4/sizeBox)); // rumus perhitungan berapa banyak vertex yg dibuat berdasarkan ukuran size
+
+    i:= -3000; // nilai asal
+    while i < CONST_M do
     begin
       beginShape(n);
-      j:= -w*2;
+
+      j:= -w*2; // nilai asal
       while j <= w*2 do
       begin
         // 1
-        y:= customPerlinNoise(j+w*2, i+3000);
-        point:= rotateX(j, y*h-1000, i, 30);
+        y:= customPerlinNoise(j+w*2, i+3000); // Ditambah biar nilai input tidak negatif
+        point:= rotateX(j, y*h-1000, i, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit kebawah
 
-        green := Round(255*y);
+        green := Round(255*y); // nilai 0..1 dimapping ke 0..255
         red := 255-green;
         fill(RGBToColor(red,green,0));
         vertex(point);
 
         // 2
-        y:= customPerlinNoise(j+w*2, i+3000+sizeBox);
-        point:= rotateX(j, y*h-1000, i+sizeBox, 30);
+        y:= customPerlinNoise(j+w*2, i+3000+sizeBox); // Ditambah biar nilai input tidak negatif
+        point:= rotateX(j, y*h-1000, i+sizeBox, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit kebawah
 
-        green := Round(255*y);
+        green := Round(255*y); // nilai 0..1 dimapping ke 0..255
         red := 255-green;
         fill(RGBToColor(red,green,0));
         vertex(point);
