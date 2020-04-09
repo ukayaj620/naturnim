@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  StdCtrls;
+  StdCtrls, Math;
 
 type
 
@@ -33,7 +33,12 @@ type
         x:double;
         y:double;
         z:double;
-    end;
+      end;
+      Bintang = record
+        pos: Vector3;
+        warna: TColor;
+        rotasi: double;
+      end;
 
     var
       CONST_M: double;
@@ -41,7 +46,7 @@ type
       list_vertex_count: Longint;
       isShow: Boolean;
 
-      titik: Array[1..500] of Vector3;
+      list_bintang: Array[1..300] of Bintang;
       kecepatan: double;
   public
     // The 3D Library
@@ -66,6 +71,8 @@ type
     procedure vertex(x: double; y:double; z:double);
     procedure vertex(pos: Vector3);
     procedure endShape();
+    procedure star(x: double; y: double; z: double; radius: double; rotation:double = 0);
+    procedure star(pos: Vector3; radius: double; rotation:double = 0);
     {%endregion}
   end;
 
@@ -257,6 +264,80 @@ begin
     end;
   end;
 end;
+
+procedure TFormStar.star(x: double; y: double; z: double; radius: double; rotation: double = 0);
+var
+  pointBintang: array[1..10] of Vector3;
+  pointMonitor: array[1..10] of TPoint;
+  k: integer;
+  deg : double;
+  inner_circle: double;
+begin
+  if z < CONST_M then
+  begin
+    inner_circle := sin(degtorad(126))/sin(degtorad(18));
+
+    deg := rotation;
+    for k:=1 to 5 do
+    begin
+      pointBintang[k*2-1].x := x + cos(degtorad(deg)) * radius;
+      pointBintang[k*2-1].y := y + sin(degtorad(deg)) * radius;
+      pointBintang[k*2-1].z := z;
+
+      deg := deg + 36;
+
+      pointBintang[k*2].x := x + cos(degtorad(deg)) * radius * inner_circle;
+      pointBintang[k*2].y := y + sin(degtorad(deg)) * radius * inner_circle;
+      pointBintang[k*2].z := z;
+
+      deg := deg + 36;
+    end;
+
+    for k:=1 to 10 do
+    begin
+      pointMonitor[k] := projectTo2D(pointBintang[k]);
+    end;
+
+    Image1.Canvas.Polygon(pointMonitor,true,1);
+  end;
+end;
+
+procedure TFormStar.star(pos: Vector3; radius: double; rotation: double = 0);
+var
+  pointBintang: array[1..10] of Vector3;
+  pointMonitor: array[1..10] of TPoint;
+  k: integer;
+  deg : double;
+  inner_circle: double;
+begin
+  if pos.z < CONST_M then
+  begin
+    inner_circle := sin(degtorad(126))/sin(degtorad(18));
+
+    deg := rotation;
+    for k:=1 to 5 do
+    begin
+      pointBintang[k*2-1].x := pos.x + cos(degtorad(deg)) * radius;
+      pointBintang[k*2-1].y := pos.y + sin(degtorad(deg)) * radius;
+      pointBintang[k*2-1].z := pos.z;
+
+      deg := deg + 36;
+
+      pointBintang[k*2].x := pos.x + cos(degtorad(deg)) * radius * inner_circle;
+      pointBintang[k*2].y := pos.y + sin(degtorad(deg)) * radius * inner_circle;
+      pointBintang[k*2].z := pos.z;
+
+      deg := deg + 36;
+    end;
+
+    for k:=1 to 10 do
+    begin
+      pointMonitor[k] := projectTo2D(pointBintang[k]);
+    end;
+
+    Image1.Canvas.Polygon(pointMonitor,true);
+  end;
+end;
 {%endregion}
 {%endregion}
 
@@ -286,61 +367,106 @@ end;
 // Setup
 procedure TFormStar.FormCreate(Sender: TObject);
 var
-  k : integer;
+  k, j : integer;
+  index : Bintang;
 begin
   CONST_M := 200;
+  kecepatan := 0;
   isShow := false;
 
   Randomize();
-  for k:=1 to 500 do
+  for k:=1 to 300 do
   begin
-    titik[k].x := -2000 + Random() * 4000;
-    titik[k].y := -2000 + Random() * 4000;
-    titik[k].z := -2000 + Random() * 2000;
+    list_bintang[k].pos.x := -2000 + Random() * 4000;
+    list_bintang[k].pos.y := -2000 + Random() * 4000;
+    list_bintang[k].pos.z := -2000 + Random() * 2000;
+    list_bintang[k].warna := TColor(Random(16777215)); // #FFFFFF
+    list_bintang[k].rotasi := Random(360);
   end;
 
-  kecepatan := 0;
+  // Insertion Sort berdasarkan posisi z
+  for k:=2 to 300 do
+  begin
+    index := list_bintang[k];
+    j := k;
+    while ((j > 1) AND (list_bintang[j-1].pos.z > index.pos.z)) do
+    begin
+      list_bintang[j] := list_bintang[j-1];
+      j := j-1;
+    end;
+    list_bintang[j] := index;
+  end;
+
 end;
 
 // draw
 procedure TFormStar.Timer1Timer(Sender: TObject);
 var
-  k : integer;
+  k, j : integer;
+  index : Bintang;
+  titik: Vector3;
+  ketebalan: double;
 begin
   if isShow then
   begin
     // update
     kecepatan := tb_Kecepatan.Position;
 
-    for k:=1 to 500 do
+    for k:=1 to 300 do
     begin
-      titik[k].z := titik[k].z + kecepatan;
+      list_bintang[k].pos.z := list_bintang[k].pos.z + kecepatan;
+      list_bintang[k].rotasi := list_bintang[k].rotasi + kecepatan;
 
-      if titik[k].z > CONST_M then
+      // logic
+      if list_bintang[k].pos.z > CONST_M then
       begin
-         titik[k].x := -2000 + Random() * 4000;
-         titik[k].y := -2000 + Random() * 4000;
-         titik[k].z := titik[k].z - 2000 - CONST_M;
+         list_bintang[k].pos.x := -2000 + Random() * 4000;
+         list_bintang[k].pos.y := -2000 + Random() * 4000;
+         list_bintang[k].pos.z := list_bintang[k].pos.z - 2000 - CONST_M;
+         list_bintang[k].warna := TColor(Random(16777215)); // #FFFFFF
+         list_bintang[k].rotasi := Random(360);
       end;
 
-      if titik[k].z < -2000 then
+      if list_bintang[k].pos.z < -2000 then
       begin
-         titik[k].x := -2000 + Random() * 4000;
-         titik[k].y := -2000 + Random() * 4000;
-         titik[k].z := titik[k].z + 2000 + CONST_M;
+         list_bintang[k].pos.x := -2000 + Random() * 4000;
+         list_bintang[k].pos.y := -2000 + Random() * 4000;
+         list_bintang[k].pos.z := list_bintang[k].pos.z + 2000 + CONST_M;
+         list_bintang[k].warna := TColor(Random(16777215)); // #FFFFFF
+         list_bintang[k].rotasi := Random(360);
       end;
     end;
 
+    // Insertion Sort berdasarkan posisi z
+    for k:=2 to 300 do
+    begin
+      index := list_bintang[k];
+      j := k;
+      while ((j > 1) AND (list_bintang[j-1].pos.z > index.pos.z)) do
+      begin
+        list_bintang[j] := list_bintang[j-1];
+        j := j-1;
+      end;
+      list_bintang[j] := index;
+    end;
 
     // draw
     clearCanvas();
 
-    stroke(clWhite);
-    fill(clWhite);
-    for k:=1 to 500 do
+    for k:=1 to 300 do
     begin
-      line(titik[k].x, titik[k].y, titik[k].z, titik[k].x, titik[k].y, titik[k].z - 4*kecepatan);
-      ellipse(titik[k], tb_radius.Position);
+      titik := list_bintang[k].pos;
+
+      ketebalan := 2 / (1-titik.z/CONST_M); // dipasang ketebalan normalnya adalah 2
+      if ketebalan > 10 then
+         ketebalan := 10;
+
+      stroke(list_bintang[k].warna);
+      StrokeWeight(ketebalan);
+      fill(clWhite);
+
+      line(titik.x, titik.y, titik.z, titik.x, titik.y, titik.z - 4*kecepatan);
+      star(titik, tb_radius.Position, list_bintang[k].rotasi);;
     end;
   end;
 end;
