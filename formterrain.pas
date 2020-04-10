@@ -424,7 +424,7 @@ begin
    dt:= 0;       // untuk navigasi di sumbu y dari fungsi perlin
    dx:= 4;       // dx dipakai dalam customPerlinNoise untuk mapping 0 < x < w*4 ke 0..dx
    dy:= 4;       // dy dipakai dalam customPerlinNoise untuk mapping 0 < y < w*4 ke 0..dx
-   sizeBox:= 50;
+   sizeBox:= 100;
 end;
 
 // draw

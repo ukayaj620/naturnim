@@ -1,27 +1,28 @@
 object FormStar: TFormStar
   Left = 266
-  Height = 603
+  Height = 904
   Top = 136
-  Width = 1074
+  Width = 1611
   Caption = 'Star Field by Ferdy Nicolas 32180018'
-  ClientHeight = 603
-  ClientWidth = 1074
+  ClientHeight = 904
+  ClientWidth = 1611
+  DesignTimePPI = 144
   OnCreate = FormCreate
   OnHide = FormHide
   OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object Image1: TImage
-    Left = 48
-    Height = 466
-    Top = 16
-    Width = 973
+    Left = 72
+    Height = 698
+    Top = 24
+    Width = 1459
     Anchors = [akTop, akLeft, akRight, akBottom]
   end
   object tb_kecepatan: TTrackBar
-    Left = 91
-    Height = 29
-    Top = 504
-    Width = 829
+    Left = 136
+    Height = 44
+    Top = 755
+    Width = 1244
     Max = 50
     Min = -50
     OnChange = tb_kecepatanChange
@@ -31,20 +32,20 @@ object FormStar: TFormStar
     TabOrder = 0
   end
   object lbl_kecepatan: TLabel
-    Left = 32
-    Height = 12
-    Top = 508
-    Width = 51
+    Left = 48
+    Height = 25
+    Top = 755
+    Width = 90
     Anchors = [akLeft, akBottom]
     Caption = 'Kecepatan :'
     ParentColor = False
     ParentFont = False
   end
   object ed_kecepatan: TEdit
-    Left = 941
-    Height = 20
-    Top = 506
-    Width = 100
+    Left = 1411
+    Height = 33
+    Top = 755
+    Width = 150
     Alignment = taCenter
     Anchors = [akRight, akBottom]
     Enabled = False
@@ -53,20 +54,20 @@ object FormStar: TFormStar
     Text = '0'
   end
   object lbl_radius: TLabel
-    Left = 32
-    Height = 12
-    Top = 540
-    Width = 34
+    Left = 48
+    Height = 25
+    Top = 803
+    Width = 62
     Anchors = [akLeft, akBottom]
     Caption = 'Radius :'
     ParentColor = False
     ParentFont = False
   end
   object tb_radius: TTrackBar
-    Left = 91
-    Height = 25
-    Top = 535
-    Width = 829
+    Left = 136
+    Height = 38
+    Top = 802
+    Width = 1244
     Max = 20
     OnChange = tb_radiusChange
     Position = 8
@@ -75,10 +76,10 @@ object FormStar: TFormStar
     TabOrder = 2
   end
   object ed_radius: TEdit
-    Left = 941
-    Height = 20
-    Top = 538
-    Width = 100
+    Left = 1411
+    Height = 33
+    Top = 803
+    Width = 150
     Alignment = taCenter
     Anchors = [akRight, akBottom]
     Enabled = False
@@ -87,20 +88,20 @@ object FormStar: TFormStar
     Text = '8'
   end
   object lbl_jumlah: TLabel
-    Left = 32
-    Height = 12
-    Top = 573
-    Width = 37
+    Left = 48
+    Height = 25
+    Top = 852
+    Width = 64
     Anchors = [akLeft, akBottom]
     Caption = 'Jumlah :'
     ParentColor = False
     ParentFont = False
   end
   object tb_jumlah: TTrackBar
-    Left = 91
-    Height = 25
-    Top = 568
-    Width = 829
+    Left = 136
+    Height = 38
+    Top = 851
+    Width = 1244
     Max = 50
     OnChange = tb_jumlahChange
     Position = 30
@@ -109,10 +110,10 @@ object FormStar: TFormStar
     TabOrder = 4
   end
   object ed_jumlah: TEdit
-    Left = 941
-    Height = 20
-    Top = 571
-    Width = 100
+    Left = 1411
+    Height = 33
+    Top = 853
+    Width = 150
     Alignment = taCenter
     Anchors = [akRight, akBottom]
     Enabled = False
@@ -123,7 +124,7 @@ object FormStar: TFormStar
   object Timer1: TTimer
     Interval = 11
     OnTimer = Timer1Timer
-    left = 16
-    top = 16
+    left = 24
+    top = 24
   end
 end

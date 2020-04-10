@@ -94,7 +94,7 @@ object FormMatrix: TFormMatrix
     Max = 200
     Min = 50
     OnChange = TrackBarSizeChange
-    Position = 50
+    Position = 100
     Anchors = [akRight, akBottom]
     TabOrder = 3
   end
@@ -132,7 +132,7 @@ object FormMatrix: TFormMatrix
     Width = 72
     Anchors = [akRight, akBottom]
     TabOrder = 7
-    Text = '50'
+    Text = '100'
   end
   object Timer1: TTimer
     Interval = 33
