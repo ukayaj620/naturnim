@@ -165,20 +165,13 @@ begin
   x2Inter:= lerp(xff, d3, d4);
   yInter:= lerp(yff, x1Inter, x2Inter);
 
-  yInter := yInter + 0.5;
-
-  if yInter < 0 then
-     yInter := 0;
-  if yInter > 1 then
-     yInter := 1;
-
-  noisePerlin:= yInter;
+  noisePerlin:= (yInter + 1) / 2;
 end;
 
 function TFormMatrix.customPerlinNoise(x: double; y: double): double;
 begin
-  x := (x+w) * dx/(w*2);
-  y := (y+w) * dy/(w*2);
+  x := x * dx/(w*4);
+  y := y * dy/(w*4);
   customPerlinNoise := noisePerlin(x, y-dt);
 end;
 {%endregion}
@@ -441,7 +434,7 @@ var
   y: double;
   point: Vector3;
   n: LongInt;
-  red, green : Byte;
+  blue, green : Byte;
 begin
   if isShow then
   begin
@@ -463,8 +456,8 @@ begin
         point:= rotateX(j, y*h-1000, i, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit kebawah
 
         green := Round(255*y); // nilai 0..1 dimapping ke 0..255
-        red := 255-green;
-        fill(RGBToColor(red,green,0));
+        blue := 255-green;
+        fill(RGBToColor(0, green, blue));
         vertex(point);
 
         // 2
@@ -472,8 +465,8 @@ begin
         point:= rotateX(j, y*h-1000, i+sizeBox, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit kebawah
 
         green := Round(255*y); // nilai 0..1 dimapping ke 0..255
-        red := 255-green;
-        fill(RGBToColor(red,green,0));
+        blue := 255-green;
+        fill(RGBToColor(0, green, blue));
         vertex(point);
 
         // increment
