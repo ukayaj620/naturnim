@@ -41,7 +41,8 @@ type
       Bintang = record
         pos: Vector3;
         warna: TColor;
-        rotasi: double;
+        rotasi: Vector3;
+        kec_rotasi:Vector3;
       end;
 
     var
@@ -76,8 +77,8 @@ type
     procedure vertex(x: double; y:double; z:double);
     procedure vertex(pos: Vector3);
     procedure endShape();
-    procedure star(x: double; y: double; z: double; radius: double; rotation:double = 0);
-    procedure star(pos: Vector3; radius: double; rotation:double = 0);
+    procedure star(x: double; y: double; z: double; radius: double; rotation_x : double = 0; rotation_Y : double = 0; rotation_Z : double = 0);
+    procedure star(pos: Vector3; radius: double; rotation:Vector3);
     {%endregion}
   end;
 
@@ -270,7 +271,7 @@ begin
   end;
 end;
 
-procedure TFormStar.star(x: double; y: double; z: double; radius: double; rotation: double = 0);
+procedure TFormStar.star(x: double; y: double; z: double; radius: double; rotation_x : double = 0; rotation_Y : double = 0; rotation_Z : double = 0);
 var
   pointBintang: array[1..10] of Vector3;
   pointMonitor: array[1..10] of TPoint;
@@ -282,7 +283,7 @@ begin
   begin
     inner_circle := sin(degtorad(126))/sin(degtorad(18));
 
-    deg := rotation;
+    deg := rotation_z;
     for k:=1 to 5 do
     begin
       pointBintang[k*2-1].x := x + cos(degtorad(deg)) * radius;
@@ -307,19 +308,21 @@ begin
   end;
 end;
 
-procedure TFormStar.star(pos: Vector3; radius: double; rotation: double = 0);
+procedure TFormStar.star(pos: Vector3; radius: double; rotation: Vector3);
 var
   pointBintang: array[1..10] of Vector3;
   pointMonitor: array[1..10] of TPoint;
   k: integer;
   deg : double;
-  inner_circle: double;
+  bigger_circle: double;
+  temp : double;
+  lebihM : boolean;
 begin
   if pos.z < CONST_M then
   begin
-    inner_circle := sin(degtorad(126))/sin(degtorad(18));
+    bigger_circle := sin(degtorad(126))/sin(degtorad(18));
 
-    deg := rotation;
+    deg := rotation.z;
     for k:=1 to 5 do
     begin
       pointBintang[k*2-1].x := pos.x + cos(degtorad(deg)) * radius;
@@ -328,8 +331,8 @@ begin
 
       deg := deg + 36;
 
-      pointBintang[k*2].x := pos.x + cos(degtorad(deg)) * radius * inner_circle;
-      pointBintang[k*2].y := pos.y + sin(degtorad(deg)) * radius * inner_circle;
+      pointBintang[k*2].x := pos.x + cos(degtorad(deg)) * radius * bigger_circle;
+      pointBintang[k*2].y := pos.y + sin(degtorad(deg)) * radius * bigger_circle;
       pointBintang[k*2].z := pos.z;
 
       deg := deg + 36;
@@ -337,10 +340,40 @@ begin
 
     for k:=1 to 10 do
     begin
+      // translasi ke pivot
+      pointBintang[k].x := pointBintang[k].x - pos.x;
+      pointBintang[k].y := pointBintang[k].y - pos.y;
+      pointBintang[k].z := pointBintang[k].z - pos.z;
+
+      // rotasi Sumbu X
+      temp := pointBintang[k].y;
+      pointBintang[k].y := pointBintang[k].y * cos(degtorad(rotation.x)) - pointBintang[k].z * sin(degtorad(rotation.x));
+      pointBintang[k].z :=      temp         * sin(degtorad(rotation.x)) + pointBintang[k].z * cos(degtorad(rotation.x));
+
+      // rotasi Sumbu Y
+      temp := pointBintang[k].x;
+      pointBintang[k].x := pointBintang[k].x * cos(degtorad(rotation.y)) - pointBintang[k].z * sin(degtorad(rotation.y));
+      pointBintang[k].z :=      temp         * sin(degtorad(rotation.y)) + pointBintang[k].z * cos(degtorad(rotation.y));
+
+      // translasi kembali
+      pointBintang[k].x := pointBintang[k].x + pos.x;
+      pointBintang[k].y := pointBintang[k].y + pos.y;
+      pointBintang[k].z := pointBintang[k].z + pos.z;
+
+      // proyeksi
       pointMonitor[k] := projectTo2D(pointBintang[k]);
     end;
 
-    Image1.Canvas.Polygon(pointMonitor,true);
+    // cek apakah ada titik Z yg melebihi M
+    lebihM := false;
+    for k:=1 to 10 do
+    begin
+      if pointBintang[k].z >= CONST_M then
+         lebihM := true;
+    end;
+
+    if lebihM = false then
+       Image1.Canvas.Polygon(pointMonitor,true);
   end;
 end;
 {%endregion}
@@ -405,7 +438,12 @@ begin
     list_bintang[k].pos.y := -2000 + Random() * 4000;
     list_bintang[k].pos.z := -2000 + Random() * 2000;
     list_bintang[k].warna := TColor(Random(16777215)); // #FFFFFF
-    list_bintang[k].rotasi := Random(360);
+    list_bintang[k].rotasi.x := 0;
+    list_bintang[k].rotasi.y := 0;
+    list_bintang[k].rotasi.z := Random(360);
+    list_bintang[k].kec_rotasi.x := -1 + Random(3);
+    list_bintang[k].kec_rotasi.y := -1 + Random(3);
+    list_bintang[k].kec_rotasi.z := 0;
   end;
 
   // Insertion Sort berdasarkan posisi z
@@ -439,8 +477,12 @@ begin
 
     for k:=1 to jumlah do
     begin
+      list_bintang[k].kec_rotasi.z := kecepatan;
+
       list_bintang[k].pos.z := list_bintang[k].pos.z + kecepatan;
-      list_bintang[k].rotasi := list_bintang[k].rotasi + kecepatan;
+      list_bintang[k].rotasi.x := list_bintang[k].rotasi.x + list_bintang[k].kec_rotasi.x;
+      list_bintang[k].rotasi.y := list_bintang[k].rotasi.y + list_bintang[k].kec_rotasi.y;
+      list_bintang[k].rotasi.z := list_bintang[k].rotasi.z + list_bintang[k].kec_rotasi.z;
 
       // logic
       if list_bintang[k].pos.z > CONST_M then
@@ -449,7 +491,7 @@ begin
          list_bintang[k].pos.y := -2000 + Random() * 4000;
          list_bintang[k].pos.z := list_bintang[k].pos.z - 2000 - CONST_M;
          list_bintang[k].warna := TColor(Random(16777215)); // #FFFFFF
-         list_bintang[k].rotasi := Random(360);
+         list_bintang[k].rotasi.z := Random(360);
       end;
 
       if list_bintang[k].pos.z < -2000 then
@@ -458,7 +500,7 @@ begin
          list_bintang[k].pos.y := -2000 + Random() * 4000;
          list_bintang[k].pos.z := list_bintang[k].pos.z + 2000 + CONST_M;
          list_bintang[k].warna := TColor(Random(16777215)); // #FFFFFF
-         list_bintang[k].rotasi := Random(360);
+         list_bintang[k].rotasi.z := Random(360);
       end;
     end;
 
