@@ -7,7 +7,7 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, FormSolar, starfield, FormUtama, FormTerrain
+  Forms, starfield, FormUtama, FormTerrain
   { you can add units after this };
 
 {$R *.res}
@@ -17,7 +17,6 @@ begin
   Application.Scaled:=True;
   Application.Initialize;
   Application.CreateForm(TFormMaster, FormMaster);
-  Application.CreateForm(TFormSol, FormSol);
   Application.CreateForm(TFormStar, FormStar);
   Application.CreateForm(TFormMatrix, FormMatrix);
   Application.Run;
