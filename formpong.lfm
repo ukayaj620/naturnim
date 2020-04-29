@@ -1,0 +1,77 @@
+object SpacePong: TSpacePong
+  Left = 458
+  Height = 545
+  Top = 182
+  Width = 716
+  Caption = 'Space Pong'
+  ClientHeight = 545
+  ClientWidth = 716
+  Color = clBackground
+  DesignTimePPI = 120
+  OnCreate = FormCreate
+  OnMouseMove = ControlPaddle
+  LCLVersion = '2.0.6.0'
+  object Ball: TShape
+    Left = 342
+    Height = 31
+    Top = 424
+    Width = 31
+    Anchors = []
+  end
+  object Paddle: TShape
+    Left = 305
+    Height = 25
+    Top = 520
+    Width = 131
+    Anchors = [akBottom]
+    OnMouseMove = PaddleMouseMove
+  end
+  object lblScore: TLabel
+    Left = 581
+    Height = 25
+    Top = 13
+    Width = 170
+    Alignment = taRightJustify
+    Anchors = []
+    AutoSize = False
+    Caption = 'Score: 0'
+    Font.Color = clWhite
+    Font.Height = -25
+    Font.Name = 'Lucida Console'
+    ParentColor = False
+    ParentFont = False
+  end
+  object lblgameover: TLabel
+    Left = 249
+    Height = 89
+    Top = 162
+    Width = 311
+    Anchors = []
+    AutoSize = False
+    Caption = 'game over'
+    Font.Color = clWhite
+    Font.Height = -66
+    ParentColor = False
+    ParentFont = False
+  end
+  object lblrestart: TLabel
+    Left = 315
+    Height = 56
+    Top = 238
+    Width = 115
+    Anchors = []
+    AutoSize = False
+    Caption = 'restart'
+    Font.Color = clWhite
+    Font.Height = -41
+    ParentColor = False
+    ParentFont = False
+    OnClick = lblrestartClick
+  end
+  object tmrGame: TTimer
+    Interval = 25
+    OnTimer = tmrGameTimer
+    left = 20
+    top = 20
+  end
+end
