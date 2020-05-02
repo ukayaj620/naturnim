@@ -145,13 +145,14 @@ var
 begin
   xi:= floor(x) AND 255;
   yi:= floor(y) AND 255;
+  xf:= x - floor(x);
+  yf:= y - floor(y);
+
   g1:= p[p[xi] + yi];
   g2:= p[p[xi + 1] + yi];
   g3:= p[p[xi] + yi + 1];
   g4:= p[p[xi + 1] + yi + 1];
 
-  xf:= x - floor(x);
-  yf:= y - floor(y);
 
   d1:= grad(g1, xf, yf);
   d2:= grad(g2, xf - 1, yf);
@@ -423,7 +424,7 @@ begin
 
    dt:= 0;       // untuk navigasi di sumbu y dari fungsi perlin
    dx:= 4;       // dx dipakai dalam customPerlinNoise untuk mapping 0 < x < w*4 ke 0..dx
-   dy:= 4;       // dy dipakai dalam customPerlinNoise untuk mapping 0 < y < w*4 ke 0..dx
+   dy:= 4;       // dy dipakai dalam customPerlinNoise untuk mapping 0 < y < w*4 ke 0..dz
    sizeBox:= 100;
 end;
 
@@ -453,21 +454,21 @@ begin
       begin
         // 1
         y:= customPerlinNoise(j+w*2, i+3000); // Ditambah biar nilai input tidak negatif
-        point:= rotateX(j, y*h-1000, i, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit kebawah
-
+        point:= rotateX(j, y*h-1000, i, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit ke arah sumbu Y negatif
+                                              // dan melakukan rotasi 3D terhadap sumbu X sebesar 30 derajat
         green := Round(255*y); // nilai 0..1 dimapping ke 0..255
         blue := 255-green;
-        fill(RGBToColor(0, green, blue));
-        vertex(point);
+        fill(RGBToColor(0, green, blue));  // melakukan proses pewarnaan sesuai dengan nilai RGB
+        vertex(point); // untuk melakukan pengambaran edge dari vertex
 
         // 2
         y:= customPerlinNoise(j+w*2, i+3000+sizeBox); // Ditambah biar nilai input tidak negatif
-        point:= rotateX(j, y*h-1000, i+sizeBox, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit kebawah
-
+        point:= rotateX(j, y*h-1000, i+sizeBox, 30);  // nilai 0..1 dimapping ke 0..height, lalu ditranslasi 1000 unit ke arah sumbu Y negatif
+                                                      // dan melakukan rotasi 3D terhadap sumbu X sebesar 30 derajat
         green := Round(255*y); // nilai 0..1 dimapping ke 0..255
         blue := 255-green;
-        fill(RGBToColor(0, green, blue));
-        vertex(point);
+        fill(RGBToColor(0, green, blue));  // melakukan proses pewarnaan sesuai dengan nilai RGB
+        vertex(point); // untuk melakukan pengambaran edge dari vertex
 
         // increment
         j:= j+sizeBox;
