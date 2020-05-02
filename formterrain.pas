@@ -170,8 +170,8 @@ end;
 
 function TFormMatrix.customPerlinNoise(x: double; y: double): double;
 begin
-  x := x * dx/(w*4);
-  y := y * dy/(w*4);
+  x := (x+w) * dx/(w*2);
+  y := (y+w) * dy/(w*2);
   customPerlinNoise := noisePerlin(x, y-dt);
 end;
 {%endregion}
