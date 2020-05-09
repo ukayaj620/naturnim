@@ -277,11 +277,13 @@ var
   pointMonitor: array[1..10] of TPoint;
   k: integer;
   deg : double;
-  inner_circle: double;
+  bigger_circle: double;
+  temp : double;
+  lebihM : boolean;
 begin
   if z < CONST_M then
   begin
-    inner_circle := sin(degtorad(126))/sin(degtorad(18));
+    bigger_circle := sin(degtorad(126))/sin(degtorad(18));
 
     deg := rotation_z;
     for k:=1 to 5 do
@@ -292,8 +294,8 @@ begin
 
       deg := deg + 36;
 
-      pointBintang[k*2].x := x + cos(degtorad(deg)) * radius * inner_circle;
-      pointBintang[k*2].y := y + sin(degtorad(deg)) * radius * inner_circle;
+      pointBintang[k*2].x := x + cos(degtorad(deg)) * radius * bigger_circle;
+      pointBintang[k*2].y := y + sin(degtorad(deg)) * radius * bigger_circle;
       pointBintang[k*2].z := z;
 
       deg := deg + 36;
@@ -301,10 +303,40 @@ begin
 
     for k:=1 to 10 do
     begin
+      // translasi ke pivot
+      pointBintang[k].x := pointBintang[k].x - x;
+      pointBintang[k].y := pointBintang[k].y - y;
+      pointBintang[k].z := pointBintang[k].z - z;
+
+      // rotasi Sumbu X
+      temp := pointBintang[k].y;
+      pointBintang[k].y := pointBintang[k].y * cos(degtorad(rotation_x)) - pointBintang[k].z * sin(degtorad(rotation_x));
+      pointBintang[k].z :=      temp         * sin(degtorad(rotation_x)) + pointBintang[k].z * cos(degtorad(rotation_x));
+
+      // rotasi Sumbu Y
+      temp := pointBintang[k].x;
+      pointBintang[k].x := pointBintang[k].x * cos(degtorad(rotation_y)) - pointBintang[k].z * sin(degtorad(rotation_y));
+      pointBintang[k].z :=      temp         * sin(degtorad(rotation_y)) + pointBintang[k].z * cos(degtorad(rotation_y));
+
+      // translasi kembali
+      pointBintang[k].x := pointBintang[k].x + x;
+      pointBintang[k].y := pointBintang[k].y + y;
+      pointBintang[k].z := pointBintang[k].z + z;
+
+      // proyeksi
       pointMonitor[k] := projectTo2D(pointBintang[k]);
     end;
 
-    Image1.Canvas.Polygon(pointMonitor,true,1);
+    // cek apakah ada titik Z yg melebihi M
+    lebihM := false;
+    for k:=1 to 10 do
+    begin
+      if pointBintang[k].z >= CONST_M then
+         lebihM := true;
+    end;
+
+    if lebihM = false then
+       Image1.Canvas.Polygon(pointMonitor,true);
   end;
 end;
 
