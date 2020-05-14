@@ -1,7 +1,7 @@
 object FormMatrix: TFormMatrix
-  Left = 248
+  Left = 176
   Height = 928
-  Top = 43
+  Top = 39
   Width = 1542
   Caption = 'Perlin Terrain By Jayaku Briiantio 32180088'
   ClientHeight = 928
@@ -94,7 +94,7 @@ object FormMatrix: TFormMatrix
     Max = 200
     Min = 50
     OnChange = TrackBarSizeChange
-    Position = 100
+    Position = 125
     Anchors = [akRight, akBottom]
     TabOrder = 3
   end
@@ -104,6 +104,7 @@ object FormMatrix: TFormMatrix
     Top = 808
     Width = 72
     Anchors = [akLeft, akBottom]
+    Enabled = False
     TabOrder = 4
     Text = '4'
   end
@@ -113,6 +114,7 @@ object FormMatrix: TFormMatrix
     Top = 848
     Width = 72
     Anchors = [akLeft, akBottom]
+    Enabled = False
     TabOrder = 5
     Text = '4'
   end
@@ -122,6 +124,7 @@ object FormMatrix: TFormMatrix
     Top = 808
     Width = 72
     Anchors = [akRight, akBottom]
+    Enabled = False
     TabOrder = 6
     Text = '0'
   end
@@ -131,8 +134,9 @@ object FormMatrix: TFormMatrix
     Top = 848
     Width = 72
     Anchors = [akRight, akBottom]
+    Enabled = False
     TabOrder = 7
-    Text = '100'
+    Text = '125'
   end
   object Timer1: TTimer
     Interval = 33

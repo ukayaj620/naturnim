@@ -1,7 +1,7 @@
 object FormStar: TFormStar
-  Left = 266
+  Left = 197
   Height = 904
-  Top = 136
+  Top = 144
   Width = 1611
   Caption = 'Star Field by Ferdy Nicolas 32180018'
   ClientHeight = 904
