@@ -47,8 +47,6 @@ type
 
     var
       CONST_M: double;
-      list_vertex: array of Vector3;
-      list_vertex_count: Longint;
       isShow: Boolean;
 
       list_bintang: Array[1..500] of Bintang;
@@ -69,15 +67,7 @@ type
     procedure noFill();
     procedure fill(c: TColor);
     procedure strokeWeight(weight: double);
-    procedure ellipse(x: double; y: double; z: double; radius: double);
-    procedure ellipse(pos: Vector3; radius: double);
     procedure line(x1: double; y1: double; z1: double; x2: double; y2: double; z2: double);
-    procedure line(pos1: Vector3; pos2: Vector3);
-    procedure beginShape(size: LongInt);
-    procedure vertex(x: double; y:double; z:double);
-    procedure vertex(pos: Vector3);
-    procedure endShape();
-    procedure star(x: double; y: double; z: double; radius: double; rotation_x : double = 0; rotation_Y : double = 0; rotation_Z : double = 0);
     procedure star(pos: Vector3; radius: double; rotation:Vector3);
     {%endregion}
   end;
@@ -153,52 +143,6 @@ begin
   Image1.Canvas.Pen.Width := round(weight);
 end;
 
-procedure TFormStar.Ellipse(x: double; y: double; z: double; radius: double);
-var
-  pointMonitor: TPoint;
-begin
-  pointMonitor:= projectTo2D(x,y,z);
-
-  if z = CONST_M then
-  begin
-    radius := 0;
-  end
-  else
-  begin
-    radius := radius / (1-z/CONST_M);
-  end;
-
-  Image1.Canvas.Ellipse(
-    pointMonitor.x - round(radius),
-    pointMonitor.y - round(radius),
-    pointMonitor.x + round(radius),
-    pointMonitor.y + round(radius)
-  );
-end;
-
-procedure TFormStar.Ellipse(pos: Vector3; radius: double);
-var
-  pointMonitor: TPoint;
-begin
-  pointMonitor:= projectTo2D(pos.x,pos.y,pos.z);
-
-  if pos.z = CONST_M then
-  begin
-    radius := 0;
-  end
-  else
-  begin
-    radius := radius / (1-pos.z/CONST_M);
-  end;
-
-  Image1.Canvas.Ellipse(
-    pointMonitor.x - round(radius),
-    pointMonitor.y - round(radius),
-    pointMonitor.x + round(radius),
-    pointMonitor.y + round(radius)
-  );
-end;
-
 procedure TFormStar.line(x1: double; y1: double; z1: double; x2: double; y2: double; z2: double);
 var
   pointMonitor1: TPoint;
@@ -210,133 +154,6 @@ begin
   if (z1 < CONST_M) and (z2 < CONST_M) and (CONST_M <> 0) then
   begin
     Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
-  end;
-end;
-
-procedure TFormStar.line(pos1: Vector3; pos2: Vector3);
-var
-  pointMonitor1: TPoint;
-  pointMonitor2: TPoint;
-begin
-  pointMonitor1 := projectTo2D(pos1.x, pos1.y, pos1.z);
-  pointMonitor2 := projectTo2D(pos2.x, pos2.y, pos2.z);
-
-
-  if (pos1.z < CONST_M) and (pos2.z < CONST_M) and (CONST_M <> 0) then
-  begin
-    Image1.Canvas.Line(pointMonitor1.x, pointMonitor1.y, pointMonitor2.x, pointMonitor2.y);
-  end;
-end;
-
-procedure TFormStar.beginShape(size: LongInt);
-begin
-  setLength(list_vertex, size);
-  list_vertex_count := 0;
-end;
-
-procedure TFormStar.vertex(x: double; y:double; z:double);
-var
-  temp: Vector3;
-begin
-  temp.x := x;
-  temp.y := y;
-  temp.z := z;
-
-  list_vertex[list_vertex_count] := temp;
-  list_vertex_count := list_vertex_count + 1;
-end;
-
-procedure TFormStar.vertex(pos: Vector3);
-begin
-  list_vertex[list_vertex_count] := pos;
-  list_vertex_count := list_vertex_count + 1;
-end;
-
-procedure TFormStar.endShape();
-var
-  k : longInt;
-begin
-  if list_vertex_count > 0 then
-  begin
-     line(list_vertex[0], list_vertex[1]);
-  end;
-
-  if list_vertex_count > 1 then
-  begin
-    for k:=2 to list_vertex_count-1 do
-    begin
-      line(list_vertex[k], list_vertex[k-1]);
-      line(list_vertex[k], list_vertex[k-2]);
-    end;
-  end;
-end;
-
-procedure TFormStar.star(x: double; y: double; z: double; radius: double; rotation_x : double = 0; rotation_Y : double = 0; rotation_Z : double = 0);
-var
-  pointBintang: array[1..10] of Vector3;
-  pointMonitor: array[1..10] of TPoint;
-  k: integer;
-  deg : double;
-  bigger_circle: double;
-  temp : double;
-  lebihM : boolean;
-begin
-  if z < CONST_M then
-  begin
-    bigger_circle := sin(degtorad(126))/sin(degtorad(18));
-
-    deg := rotation_z;
-    for k:=1 to 5 do
-    begin
-      pointBintang[k*2-1].x := x + cos(degtorad(deg)) * radius;
-      pointBintang[k*2-1].y := y + sin(degtorad(deg)) * radius;
-      pointBintang[k*2-1].z := z;
-
-      deg := deg + 36;
-
-      pointBintang[k*2].x := x + cos(degtorad(deg)) * radius * bigger_circle;
-      pointBintang[k*2].y := y + sin(degtorad(deg)) * radius * bigger_circle;
-      pointBintang[k*2].z := z;
-
-      deg := deg + 36;
-    end;
-
-    for k:=1 to 10 do
-    begin
-      // translasi ke pivot
-      pointBintang[k].x := pointBintang[k].x - x;
-      pointBintang[k].y := pointBintang[k].y - y;
-      pointBintang[k].z := pointBintang[k].z - z;
-
-      // rotasi Sumbu X
-      temp := pointBintang[k].y;
-      pointBintang[k].y := pointBintang[k].y * cos(degtorad(rotation_x)) - pointBintang[k].z * sin(degtorad(rotation_x));
-      pointBintang[k].z :=      temp         * sin(degtorad(rotation_x)) + pointBintang[k].z * cos(degtorad(rotation_x));
-
-      // rotasi Sumbu Y
-      temp := pointBintang[k].x;
-      pointBintang[k].x := pointBintang[k].x * cos(degtorad(rotation_y)) - pointBintang[k].z * sin(degtorad(rotation_y));
-      pointBintang[k].z :=      temp         * sin(degtorad(rotation_y)) + pointBintang[k].z * cos(degtorad(rotation_y));
-
-      // translasi kembali
-      pointBintang[k].x := pointBintang[k].x + x;
-      pointBintang[k].y := pointBintang[k].y + y;
-      pointBintang[k].z := pointBintang[k].z + z;
-
-      // proyeksi
-      pointMonitor[k] := projectTo2D(pointBintang[k]);
-    end;
-
-    // cek apakah ada titik Z yg melebihi M
-    lebihM := false;
-    for k:=1 to 10 do
-    begin
-      if pointBintang[k].z >= CONST_M then
-         lebihM := true;
-    end;
-
-    if lebihM = false then
-       Image1.Canvas.Polygon(pointMonitor,true);
   end;
 end;
 
