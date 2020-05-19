@@ -1,28 +1,28 @@
 object FormMatrix: TFormMatrix
   Left = 176
-  Height = 866
+  Height = 499
   Top = 39
-  Width = 1613
+  Width = 913
   Caption = 'Perlin Terrain Generation By Jayaku Briiantio 32180088'
-  ClientHeight = 866
-  ClientWidth = 1613
-  DesignTimePPI = 144
+  ClientHeight = 499
+  ClientWidth = 913
   OnCreate = FormCreate
   OnHide = FormHide
   OnShow = FormShow
   LCLVersion = '2.0.6.0'
   object Image1: TImage
-    Left = 34
-    Height = 706
-    Top = 14
-    Width = 1545
-    Anchors = [akTop, akLeft, akRight, akBottom]
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Side = asrBottom
+    Left = 23
+    Height = 393
+    Top = 9
+    Width = 867
   end
   object TrackBarDx: TTrackBar
-    Left = 80
-    Height = 38
-    Top = 746
-    Width = 600
+    Left = 53
+    Height = 25
+    Top = 419
+    Width = 400
     OnChange = TrackBarDxChange
     Position = 4
     Anchors = [akLeft, akBottom]
@@ -30,30 +30,30 @@ object FormMatrix: TFormMatrix
     TabOrder = 0
   end
   object Label1: TLabel
-    Left = 40
-    Height = 25
-    Top = 747
-    Width = 244
+    Left = 27
+    Height = 15
+    Top = 421
+    Width = 0
     Anchors = [akLeft, akRight, akBottom]
     Caption = 'dx:'
     ParentColor = False
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 40
-    Height = 25
-    Top = 795
-    Width = 244
+    Left = 27
+    Height = 15
+    Top = 453
+    Width = 0
     Anchors = [akLeft, akRight, akBottom]
     Caption = 'dz:'
     ParentColor = False
     ParentFont = False
   end
   object TrackBarDz: TTrackBar
-    Left = 80
-    Height = 38
-    Top = 784
-    Width = 600
+    Left = 53
+    Height = 25
+    Top = 445
+    Width = 400
     OnChange = TrackBarDzChange
     Position = 4
     Anchors = [akLeft, akBottom]
@@ -61,30 +61,30 @@ object FormMatrix: TFormMatrix
     TabOrder = 1
   end
   object Label3: TLabel
-    Left = 858
-    Height = 25
-    Top = 747
-    Width = 19
+    Left = 409
+    Height = 15
+    Top = 421
+    Width = 13
     Anchors = [akRight, akBottom]
     Caption = 'vt:'
     ParentColor = False
     ParentFont = False
   end
   object Label4: TLabel
-    Left = 856
-    Height = 25
-    Top = 799
-    Width = 33
+    Left = 408
+    Height = 15
+    Top = 456
+    Width = 22
     Anchors = [akRight, akBottom]
     Caption = 'size:'
     ParentColor = False
     ParentFont = False
   end
   object TrackBarVt: TTrackBar
-    Left = 903
-    Height = 38
-    Top = 746
-    Width = 600
+    Left = 440
+    Height = 25
+    Top = 419
+    Width = 400
     Max = 50
     Min = -50
     OnChange = TrackBarVtChange
@@ -94,10 +94,10 @@ object FormMatrix: TFormMatrix
     TabOrder = 2
   end
   object TrackBarSize: TTrackBar
-    Left = 903
-    Height = 38
-    Top = 786
-    Width = 600
+    Left = 440
+    Height = 25
+    Top = 446
+    Width = 400
     Max = 200
     Min = 50
     OnChange = TrackBarSizeChange
@@ -107,10 +107,10 @@ object FormMatrix: TFormMatrix
     TabOrder = 3
   end
   object EditDx: TEdit
-    Left = 688
-    Height = 33
-    Top = 746
-    Width = 72
+    Left = 459
+    Height = 23
+    Top = 418
+    Width = 48
     Anchors = [akLeft, akBottom]
     Enabled = False
     ParentFont = False
@@ -118,10 +118,10 @@ object FormMatrix: TFormMatrix
     Text = '4'
   end
   object EditDz: TEdit
-    Left = 688
-    Height = 33
-    Top = 787
-    Width = 72
+    Left = 459
+    Height = 23
+    Top = 445
+    Width = 48
     Anchors = [akLeft, akBottom]
     Enabled = False
     ParentFont = False
@@ -129,10 +129,10 @@ object FormMatrix: TFormMatrix
     Text = '4'
   end
   object EditVt: TEdit
-    Left = 1507
-    Height = 33
-    Top = 746
-    Width = 72
+    Left = 842
+    Height = 23
+    Top = 418
+    Width = 48
     Anchors = [akRight, akBottom]
     Enabled = False
     ParentFont = False
@@ -140,10 +140,10 @@ object FormMatrix: TFormMatrix
     Text = '0'
   end
   object EditS: TEdit
-    Left = 1507
-    Height = 33
-    Top = 787
-    Width = 72
+    Left = 842
+    Height = 23
+    Top = 445
+    Width = 48
     Anchors = [akRight, akBottom]
     Enabled = False
     ParentFont = False
@@ -153,7 +153,7 @@ object FormMatrix: TFormMatrix
   object Timer1: TTimer
     Interval = 33
     OnTimer = Timer1Timer
-    left = 32
-    top = 20
+    left = 21
+    top = 13
   end
 end
