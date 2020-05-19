@@ -2,10 +2,10 @@ object FormMatrix: TFormMatrix
   Left = 176
   Height = 866
   Top = 39
-  Width = 1458
+  Width = 1613
   Caption = 'Perlin Terrain Generation By Jayaku Briiantio 32180088'
   ClientHeight = 866
-  ClientWidth = 1458
+  ClientWidth = 1613
   DesignTimePPI = 144
   OnCreate = FormCreate
   OnHide = FormHide
@@ -15,14 +15,14 @@ object FormMatrix: TFormMatrix
     Left = 34
     Height = 706
     Top = 14
-    Width = 1390
-    Anchors = [akTop, akLeft, akBottom]
+    Width = 1545
+    Anchors = [akTop, akLeft, akRight, akBottom]
   end
   object TrackBarDx: TTrackBar
     Left = 80
     Height = 38
-    Top = 747
-    Width = 536
+    Top = 746
+    Width = 600
     OnChange = TrackBarDxChange
     Position = 4
     Anchors = [akLeft, akBottom]
@@ -33,7 +33,7 @@ object FormMatrix: TFormMatrix
     Left = 40
     Height = 25
     Top = 747
-    Width = 89
+    Width = 244
     Anchors = [akLeft, akRight, akBottom]
     Caption = 'dx:'
     ParentColor = False
@@ -43,7 +43,7 @@ object FormMatrix: TFormMatrix
     Left = 40
     Height = 25
     Top = 795
-    Width = 89
+    Width = 244
     Anchors = [akLeft, akRight, akBottom]
     Caption = 'dz:'
     ParentColor = False
@@ -53,7 +53,7 @@ object FormMatrix: TFormMatrix
     Left = 80
     Height = 38
     Top = 784
-    Width = 536
+    Width = 600
     OnChange = TrackBarDzChange
     Position = 4
     Anchors = [akLeft, akBottom]
@@ -61,9 +61,9 @@ object FormMatrix: TFormMatrix
     TabOrder = 1
   end
   object Label3: TLabel
-    Left = 746
+    Left = 858
     Height = 25
-    Top = 744
+    Top = 747
     Width = 19
     Anchors = [akRight, akBottom]
     Caption = 'vt:'
@@ -71,9 +71,9 @@ object FormMatrix: TFormMatrix
     ParentFont = False
   end
   object Label4: TLabel
-    Left = 744
+    Left = 856
     Height = 25
-    Top = 797
+    Top = 799
     Width = 33
     Anchors = [akRight, akBottom]
     Caption = 'size:'
@@ -81,10 +81,10 @@ object FormMatrix: TFormMatrix
     ParentFont = False
   end
   object TrackBarVt: TTrackBar
-    Left = 768
+    Left = 903
     Height = 38
-    Top = 744
-    Width = 560
+    Top = 746
+    Width = 600
     Max = 50
     Min = -50
     OnChange = TrackBarVtChange
@@ -94,10 +94,10 @@ object FormMatrix: TFormMatrix
     TabOrder = 2
   end
   object TrackBarSize: TTrackBar
-    Left = 768
+    Left = 903
     Height = 38
-    Top = 784
-    Width = 560
+    Top = 786
+    Width = 600
     Max = 200
     Min = 50
     OnChange = TrackBarSizeChange
@@ -107,7 +107,7 @@ object FormMatrix: TFormMatrix
     TabOrder = 3
   end
   object EditDx: TEdit
-    Left = 624
+    Left = 688
     Height = 33
     Top = 746
     Width = 72
@@ -118,9 +118,9 @@ object FormMatrix: TFormMatrix
     Text = '4'
   end
   object EditDz: TEdit
-    Left = 624
+    Left = 688
     Height = 33
-    Top = 789
+    Top = 787
     Width = 72
     Anchors = [akLeft, akBottom]
     Enabled = False
@@ -129,9 +129,9 @@ object FormMatrix: TFormMatrix
     Text = '4'
   end
   object EditVt: TEdit
-    Left = 1346
+    Left = 1507
     Height = 33
-    Top = 744
+    Top = 746
     Width = 72
     Anchors = [akRight, akBottom]
     Enabled = False
@@ -140,9 +140,9 @@ object FormMatrix: TFormMatrix
     Text = '0'
   end
   object EditS: TEdit
-    Left = 1348
+    Left = 1507
     Height = 33
-    Top = 785
+    Top = 787
     Width = 72
     Anchors = [akRight, akBottom]
     Enabled = False
