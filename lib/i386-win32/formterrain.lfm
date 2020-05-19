@@ -3,7 +3,7 @@ object FormMatrix: TFormMatrix
   Height = 928
   Top = 39
   Width = 1542
-  Caption = 'Perlin Terrain By Jayaku Briiantio 32180088'
+  Caption = 'Perlin Terrain Generation By Jayaku Briiantio 32180088'
   ClientHeight = 928
   ClientWidth = 1542
   DesignTimePPI = 144
@@ -16,7 +16,6 @@ object FormMatrix: TFormMatrix
     Height = 769
     Top = 14
     Width = 1473
-    Anchors = [akTop, akLeft, akRight, akBottom]
   end
   object TrackBarDx: TTrackBar
     Left = 80
