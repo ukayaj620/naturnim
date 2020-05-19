@@ -439,6 +439,9 @@ var
 begin
   if isShow then
   begin
+    h:= Image1.Height;
+    w:= Image1.Width;
+
     clearCanvas();
     stroke(clBlack);
 
