@@ -417,9 +417,6 @@ end;
 procedure TFormMatrix.FormCreate(Sender: TObject);
 begin
    CONST_M:= 500;
-   h:= Image1.Height;
-   w:= Image1.Width;
-   clearCanvas();
    isShow := false;
 
    dt:= 0;       // untuk navigasi di sumbu y dari fungsi perlin
