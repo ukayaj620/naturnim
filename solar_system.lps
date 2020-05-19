@@ -18,8 +18,8 @@
         <ComponentName Value="FormStar"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="486"/>
-        <CursorPos X="37" Y="442"/>
+        <TopLine Value="395"/>
+        <CursorPos X="37" Y="394"/>
         <UsageCount Value="51"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -33,7 +33,7 @@
         <UnitName Value="FormUtama"/>
         <EditorIndex Value="2"/>
         <TopLine Value="7"/>
-        <CursorPos X="9" Y="30"/>
+        <CursorPos X="93" Y="19"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -45,8 +45,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormTerrain"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="181"/>
+        <TopLine Value="180"/>
         <CursorPos X="124" Y="409"/>
         <UsageCount Value="41"/>
         <Loaded Value="True"/>
@@ -59,7 +60,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="FormPong"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="46"/>
         <CursorPos X="100" Y="63"/>
