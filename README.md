@@ -1,6 +1,7 @@
-# Solar-System-Animation
-Solar System Animation is a final project for Computer Graphics course at Bunda Mulia University, 
-using Lazarus as the IDE and Pascal as the programming language. Sharing the knowledge.
+# Nature Animation
+Nature Animation is a final project for Computer Graphics course at Bunda Mulia University, 
+using Lazarus as the IDE and Pascal as the programming language. First animation is Terrain Generation
+using Perlin Noise Algorithm, second animation is simply the Star Animation, thrid is the simple pong game.
 
 ```
 Copyright 2020 Jayaku Briliantio, Ferdy Nicolas, Derry Leo Nardi
